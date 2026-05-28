@@ -1,4 +1,12 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+// Jika pengguna belum login, paksa kembali ke halaman login
+if (empty($_SESSION['logged_in'])) {
+    header('Location: login.php');
+    exit;
+}
 require_once __DIR__ . '/config/db.php';
 
 $page_title = 'Katalog';
@@ -133,8 +141,6 @@ $produk_list = array_values($produk_map);
       <li><a href="katalog.php">Katalog</a></li>
       <li><a href="pesan.php">Cara Pesan</a></li>
       <li><a href="kontak.php">Kontak</a></li>
-      <li><a href="register.php">Daftar</a></li>
-      <li><a href="login.php">Login</a></li>
     </ul>
     <a class="btn btn-primary" href="https://wa.me/6285233608339" target="_blank">💬 WhatsApp</a>
   </nav>
