@@ -76,7 +76,9 @@
       <li><a href="tentang.php">Tentang</a></li>
       <li><a href="katalog.php">Katalog</a></li>
       <li><a href="pesan.php">Cara Pesan</a></li>
-      <li><a href="kontak.php" class="active">Kontak</a></li>
+      <li><a href="kontak.php">Kontak</a></li>
+      <li><a href="register.php">Daftar</a></li>
+      <li><a href="login.php">Login</a></li>
     </ul>
     <a class="btn btn-primary" href="https://wa.me/6285233608339" target="_blank">💬 WhatsApp</a>
   </nav>
