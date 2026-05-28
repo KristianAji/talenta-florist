@@ -1,17 +1,15 @@
 <?php
 // logout.php
-// Letakkan di ROOT project (sejajar dengan login.php)
 
+// 1. Mulai session untuk bisa mengakses data yang akan dihapus
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/config/base_path.php';
-
-// Kosongkan semua data session
+// 2. Kosongkan semua data session (menghapus status login admin maupun pelanggan)
 $_SESSION = [];
 
-// Hapus cookie session jika ada
+// 3. Hapus cookie session di browser pengguna (untuk keamanan ekstra)
 if (ini_get('session.use_cookies')) {
     $params = session_get_cookie_params();
     setcookie(
@@ -25,8 +23,10 @@ if (ini_get('session.use_cookies')) {
     );
 }
 
-// Hancurkan session
+// 4. Hancurkan session sepenuhnya dari server XAMPP
 session_destroy();
 
-// Kembali ke halaman login
-redirect('login.php');
+// 5. Lemparkan pengunjung kembali ke halaman login
+header('Location: login.php');
+exit;
+?>
