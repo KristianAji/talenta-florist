@@ -1,4 +1,14 @@
 <?php
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['logged_in'])) {
+    header('Location: login.php');
+    exit;
+}
+$page_title = 'Kontak';
+?>
 require_once __DIR__ . '/config/db.php';
 
 $anggota = db()->query('SELECT * FROM anggota ORDER BY urutan')->fetchAll();
