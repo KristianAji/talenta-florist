@@ -1,5 +1,12 @@
 <?php
-$page_title = 'Cara Pesan';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (empty($_SESSION['logged_in'])) {
+    header('Location: login.php');
+    exit;
+}
+$page_title = 'Kontak';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -88,8 +95,6 @@ $page_title = 'Cara Pesan';
       <li><a href="katalog.php">Katalog</a></li>
       <li><a href="pesan.php">Cara Pesan</a></li>
       <li><a href="kontak.php">Kontak</a></li>
-      <li><a href="register.php">Daftar</a></li>
-      <li><a href="login.php">Login</a></li>
     </ul>
     <a class="btn btn-primary" href="https://wa.me/6285233608339" target="_blank">💬 WhatsApp</a>
   </nav>
