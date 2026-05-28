@@ -122,8 +122,7 @@ $active_nav = '';
         <li><a href="katalog.php">Katalog</a></li>
         <li><a href="pesan.php">Cara Pesan</a></li>
         <li><a href="kontak.php">Kontak</a></li>
-        <li><a href="register.php">Daftar</a></li>
-        <li><a href="login.php">Login</a></li>
+        <li><a href="logout.php" style="color: #dc2626; font-weight: 500;">Keluar</a></li>
       </ul>
         <a class="btn btn-primary" href="https://wa.me/6285233608339" target="_blank">💬 WhatsApp</a>
       </nav>
