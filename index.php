@@ -1,5 +1,4 @@
-  <?php
-// Mulai sesi untuk mengecek status login
+<?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -10,18 +9,17 @@ if (empty($_SESSION['logged_in'])) {
     exit;
 }
 
-// ---------------------------------------------------------
-// KODE ASLI INDEX.PHP KAMU TETAP BERADA DI BAWAH SINI
-// ---------------------------------------------------------
 require_once __DIR__ . '/config/db.php';
 
 $page_title = 'Beranda';
 $active_nav = '';
 
 // Ambil statistik dari DB
-// ... (dan seterusnya ke bawah jangan dihapus)
+$jml_produk    = db()->query('SELECT COUNT(*) FROM produk WHERE aktif=1')->fetchColumn();
+$jml_testimoni = db()->query('SELECT COUNT(*) FROM testimoni WHERE aktif=1')->fetchColumn();
+$testimoni     = db()->query('SELECT * FROM testimoni WHERE aktif=1 ORDER BY dibuat_pada DESC LIMIT 3')->fetchAll();
 ?>
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="id">
   <head>
     <meta charset="UTF-8" />
