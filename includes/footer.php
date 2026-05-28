@@ -12,6 +12,8 @@
         <li><a href="<?= base_url('katalog.php') ?>">Katalog</a></li>
         <li><a href="<?= base_url('pesan.php') ?>">Cara Pesan</a></li>
         <li><a href="<?= base_url('kontak.php') ?>">Kontak</a></li>
+        <li><a href="<?= base_url('login.php') ?>">Login</a></li>
+        <li><a href="<?= base_url('register.php') ?>">Daftar</a></li>
       </ul>
       <p>© <?= date('Y') ?> <strong>Kios Bunga Talenta</strong> · Kota Tomohon, Sulawesi Utara</p>
       <p class="footer-copy">
