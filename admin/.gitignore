@@ -1,0 +1,5 @@
+ config/db.php
+*.sql
+node_modules/
+.env
+uploads/
