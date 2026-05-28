@@ -41,6 +41,8 @@ if (!defined('BASE_PATH')) {
       <li><a href="<?= base_url('katalog.php') ?>" <?= $active_nav === 'katalog' ? 'class="active"' : '' ?>>Katalog</a></li>
       <li><a href="<?= base_url('pesan.php') ?>"   <?= $active_nav === 'pesan'   ? 'class="active"' : '' ?>>Cara Pesan</a></li>
       <li><a href="<?= base_url('kontak.php') ?>"  <?= $active_nav === 'kontak'  ? 'class="active"' : '' ?>>Kontak</a></li>
+      <li><a href="<?= base_url('register.php') ?>" <?= $active_nav === 'register' ? 'class="active"' : '' ?>>Daftar</a></li>
+      <li><a href="<?= base_url('login.php') ?>"    <?= $active_nav === 'login'    ? 'class="active"' : '' ?>>Login</a></li>
     </ul>
     <a class="btn btn-primary" href="https://wa.me/6285233608339" target="_blank">💬 WhatsApp</a>
   </nav>
