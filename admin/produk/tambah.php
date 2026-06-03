@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $ext     = strtolower(pathinfo($_FILES[$file_key]['name'], PATHINFO_EXTENSION));
                     $allowed = ['jpg','jpeg','png','webp'];
                     if (in_array($ext, $allowed)) {
-                        $dir  = __DIR__ . '/../../uploads/';
+                        $dir   = __DIR__ . '/../../uploads/';
                         $fname = uniqid('img_') . '.' . $ext;
                         if (move_uploaded_file($_FILES[$file_key]['tmp_name'], $dir . $fname)) {
                             $gambar = 'uploads/' . $fname;
@@ -70,9 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tambah produk baru admin Talenta Florist." />
   <title>Tambah Produk – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/produk.css') ?>" />
 </head>
 <body>
 
@@ -104,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <select name="kategori_id" required>
               <option value="">– Pilih Kategori –</option>
               <?php foreach ($kategori_list as $k): ?>
-              <option value="<?= $k['id'] ?>" <?= (($_POST['kategori_id']??0)==$k['id'])?'selected':'' ?>>
+              <option value="<?= $k['id'] ?>" <?= (($_POST['kategori_id'] ?? 0) == $k['id']) ? 'selected' : '' ?>>
                 <?= htmlspecialchars($k['nama']) ?>
               </option>
               <?php endforeach; ?>
@@ -120,9 +122,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Badge (opsional, contoh: Custom, Baru, Promo)</label>
             <input type="text" name="badge" value="<?= htmlspecialchars($_POST['badge'] ?? '') ?>" />
           </div>
-          <div class="form-group" style="display:flex;align-items:center;padding-top:1.6rem;">
+          <div class="form-group form-group--checkbox">
             <label class="form-check">
-              <input type="checkbox" name="aktif" value="1" <?= ($_POST['aktif']??1)?'checked':'' ?> />
+              <input type="checkbox" name="aktif" value="1" <?= ($_POST['aktif'] ?? 1) ? 'checked' : '' ?> />
               Produk Aktif (tampil di katalog)
             </label>
           </div>
@@ -131,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <div class="panel">
         <div class="panel-title">Variasi Produk</div>
-        <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">Tambahkan minimal 1 variasi. Setiap variasi memiliki nama, harga, dan gambar tersendiri.</p>
+        <p class="variasi-hint">Tambahkan minimal 1 variasi. Setiap variasi memiliki nama, harga, dan gambar tersendiri.</p>
         <div class="variasi-list" id="variasi-list">
           <div class="variasi-item">
             <span class="remove-variasi" title="Hapus variasi">✕</span>
@@ -155,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="button" id="btn-add-variasi">+ Tambah Variasi</button>
       </div>
 
-      <div style="display:flex;gap:.8rem;">
+      <div class="form-actions">
         <button class="btn btn-primary" type="submit">Simpan Produk</button>
         <a href="<?= base_url('admin/produk/index.php') ?>" class="btn btn-outline">Batal</a>
       </div>

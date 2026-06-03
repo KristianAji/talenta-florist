@@ -1,0 +1,114 @@
+/* ============================================================
+   testimoni.css — Halaman Manajemen Testimoni
+   Requires: admin-shared.css
+   ============================================================ */
+
+/* ── TESTIMONI CARD ── */
+.testimoni-card {
+  background: var(--cream);
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem;
+  box-shadow: 0 2px 16px rgba(61,43,36,.06);
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--blush);
+  transition: border-color .2s;
+}
+.testimoni-card:hover { border-left-color: var(--rose); }
+.testimoni-card.approved { border-left-color: var(--green); }
+.testimoni-card.pending  { border-left-color: #f0ad4e; }
+.testimoni-card.rejected { border-left-color: #e74c3c; }
+
+/* ── HEADER CARD ── */
+.testimoni-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .75rem;
+  gap: 1rem;
+}
+.testimoni-author {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+}
+.testimoni-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--blush);
+  color: var(--deep);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .95rem; font-weight: 600;
+  flex-shrink: 0;
+}
+.testimoni-name  { font-size: .88rem; font-weight: 400; }
+.testimoni-date  { font-size: .7rem; color: var(--muted); }
+
+/* ── BINTANG RATING ── */
+.star-rating { display: flex; gap: 2px; }
+.star { font-size: .9rem; color: var(--sand); }
+.star.filled { color: #f0ad4e; }
+
+/* ── ISI TEKS ── */
+.testimoni-text {
+  font-size: .85rem;
+  line-height: 1.65;
+  color: var(--text);
+  margin-bottom: .75rem;
+  font-style: italic;
+}
+.testimoni-text::before { content: '\201C'; }
+.testimoni-text::after  { content: '\201D'; }
+
+/* ── FOOTER CARD (produk + aksi) ── */
+.testimoni-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-wrap: wrap;
+}
+.testimoni-product {
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.testimoni-actions { display: flex; gap: .5rem; }
+
+/* ── STATUS BADGE ── */
+.badge-approved { background: #d4edda; color: #155724; }
+.badge-pending  { background: #fff3cd; color: #856404; }
+.badge-rejected { background: #f8d7da; color: #721c24; }
+
+/* ── FILTER TABS ── */
+.filter-tabs {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.filter-tab {
+  padding: .35rem .9rem;
+  border-radius: 2rem;
+  font-size: .75rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: 1.5px solid var(--sand);
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+}
+.filter-tab:hover, .filter-tab.active {
+  border-color: var(--rose);
+  color: var(--rose);
+  background: rgba(201,122,106,.06);
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .testimoni-header { flex-direction: column; align-items: flex-start; }
+  .testimoni-footer { flex-direction: column; align-items: flex-start; }
+}

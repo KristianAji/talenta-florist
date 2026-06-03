@@ -1,0 +1,118 @@
+/* ============================================================
+   dashboard.css — Halaman Dashboard
+   Requires: admin-shared.css
+   ============================================================ */
+
+/* ── STAT CARDS ── */
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-card {
+  background: var(--cream);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 16px rgba(61,43,36,.06);
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.stat-card-icon { font-size: 1.6rem; }
+.stat-card-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--rose);
+  line-height: 1;
+}
+.stat-card-label {
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── DASHBOARD GRID LAYOUT ── */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+
+/* ── CHART AREA ── */
+.chart-wrap {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── RECENT ACTIVITY LIST ── */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  font-size: .82rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--sand);
+}
+.activity-item:last-child { border-bottom: none; padding-bottom: 0; }
+.activity-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rose);
+  margin-top: .3rem;
+  flex-shrink: 0;
+}
+.activity-time {
+  font-size: .7rem;
+  color: var(--muted);
+  margin-top: .15rem;
+}
+
+/* ── TOP PRODUCTS TABLE (ringkasan) ── */
+.tbl-img { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; background: var(--sand); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+/* ── PANEL TITLE FLEX (judul + tombol sejajar) ── */
+.panel-title--flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ── TBL-IMG EMPTY STATE (placeholder tanpa gambar) ── */
+.tbl-img--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: var(--sand);
+}
+
+/* ── MOBILE: STAT CARDS 2 kolom ── */
+@media (max-width: 768px) {
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: .75rem;
+  }
+  .stat-card {
+    padding: 1rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .stat-card-num   { font-size: 1.6rem; }
+  .stat-card-label { font-size: .58rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+}

@@ -18,9 +18,11 @@ $list = db()->query("
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Halaman manajemen kategori admin Talenta Florist." />
   <title>Kategori – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/kategori.css') ?>" />
 </head>
 <body>
 
@@ -54,12 +56,14 @@ $list = db()->query("
           </thead>
           <tbody>
             <?php if (empty($list)): ?>
-            <tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Belum ada kategori.</td></tr>
+            <tr>
+              <td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Belum ada kategori.</td>
+            </tr>
             <?php else: foreach ($list as $k): ?>
             <tr>
               <td><?= $k['id'] ?></td>
               <td style="font-weight:500;"><?= htmlspecialchars($k['nama']) ?></td>
-              <td><code style="font-size:.78rem;background:var(--sand);padding:.1rem .4rem;border-radius:4px;"><?= htmlspecialchars($k['slug']) ?></code></td>
+              <td><code class="slug-code"><?= htmlspecialchars($k['slug']) ?></code></td>
               <td><?= $k['urutan'] ?></td>
               <td><?= $k['jml_produk'] ?></td>
               <td style="white-space:nowrap;">

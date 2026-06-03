@@ -16,7 +16,8 @@ $list = db()->query('SELECT * FROM testimoni ORDER BY dibuat_pada DESC')->fetchA
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Testimoni – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/produk.css') ?>" />
 </head>
 <body>
 
@@ -60,9 +61,14 @@ $list = db()->query('SELECT * FROM testimoni ORDER BY dibuat_pada DESC')->fetchA
                 </span>
               </td>
               <td><?= str_repeat('★', (int)$t['rating']) ?></td>
-              <td><span class="badge <?= $t['aktif'] ? 'badge-aktif' : 'badge-nonaktif' ?>"><?= $t['aktif'] ? 'Tampil' : 'Disembunyikan' ?></span></td>
+              <td><span class="badge <?= $t['aktif'] ? 'badge-aktif' : 'badge-nonaktif' ?>"><?= $t['aktif'] ? 'Tampil' : 'Menunggu' ?></span></td>
               <td style="white-space:nowrap;"><?= date('d M Y', strtotime($t['dibuat_pada'])) ?></td>
               <td style="white-space:nowrap;">
+                <?php if (!$t['aktif']): ?>
+                <a href="<?= base_url('admin/testimoni/approve.php?id=' . $t['id']) ?>"
+                   class="btn btn-outline btn-sm"
+                   style="color:#3b6d11;border-color:#3b6d11;">✓ Approve</a>
+                <?php endif; ?>
                 <a href="<?= base_url('admin/testimoni/edit.php?id=' . $t['id']) ?>" class="btn btn-outline btn-sm">Edit</a>
                 <a href="<?= base_url('admin/testimoni/hapus.php?id=' . $t['id']) ?>" class="btn btn-hapus btn-sm">Hapus</a>
               </td>

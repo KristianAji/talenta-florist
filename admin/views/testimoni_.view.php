@@ -1,9 +1,5 @@
 <?php
-// admin/testimoni__view.php  —  dipakai oleh testimoni/index.php
-// Variabel yang harus tersedia:
-//   $list        : array semua testimoni
-//   $flash       : flash message atau null
-//   $active_menu = 'testimoni'
+// admin/testimoni__view.php
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -12,142 +8,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Testimoni – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/admin/admin.css" />
+  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
   <style>
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.1rem;
-    }
-    .testi-card {
-      background: #fff;
-      border: 1px solid var(--sand, #f0ece4);
-      border-radius: 14px;
-      padding: 1.3rem 1.4rem;
-      display: flex;
-      flex-direction: column;
-      gap: .75rem;
-      transition: box-shadow .2s, transform .2s;
-      position: relative;
-    }
-    .testi-card:hover {
-      box-shadow: 0 6px 24px rgba(0,0,0,.08);
-      transform: translateY(-2px);
-    }
-    .testi-card-quote {
-      position: absolute;
-      top: 1rem; right: 1.2rem;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      line-height: 1;
-      color: var(--sand, #e0d9d0);
-      pointer-events: none;
-      user-select: none;
-    }
-    .testi-header {
-      display: flex;
-      align-items: center;
-      gap: .75rem;
-    }
-    .testi-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #f0e8dd, #e0d0c0);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--dark, #2a2420);
-      flex-shrink: 0;
-    }
-    .testi-nama {
-      font-weight: 500;
-      font-size: .9rem;
-      color: var(--dark, #2a2420);
-    }
-    .testi-date {
-      font-size: .72rem;
-      color: var(--muted, #9a9087);
-    }
-    .testi-rating {
-      display: flex;
-      gap: .15rem;
-    }
-    .star { font-size: .9rem; }
-    .star.filled { color: #c9a44a; }
-    .star.empty  { color: var(--sand, #d0cac2); }
-    .testi-pesan {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--dark, #3a332e);
-      font-style: italic;
-    }
-    .testi-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-top: 1px solid var(--sand, #f0ece4);
-      padding-top: .75rem;
-      margin-top: auto;
-    }
-    .testi-actions { display: flex; gap: .4rem; }
-
-    .testi-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .testi-stat {
-      background: #fff;
-      border: 1px solid var(--sand, #f0ece4);
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-      text-align: center;
-    }
-    .testi-stat-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 600;
-      color: var(--dark, #2a2420);
-    }
-    .testi-stat-label {
-      font-size: .72rem;
-      color: var(--muted, #9a9087);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-    .testi-stat-stars { color: #c9a44a; font-size: 1.1rem; }
-
-    .filter-tabs {
-      display: flex;
-      gap: .4rem;
-      margin-bottom: 1rem;
-    }
-    .filter-tab {
-      padding: .35rem .9rem;
-      border-radius: 20px;
-      border: 1px solid var(--sand, #d0cac2);
-      font-size: .78rem;
-      cursor: pointer;
-      background: none;
-      color: var(--muted, #9a9087);
-      transition: all .15s;
-    }
-    .filter-tab.active,
-    .filter-tab:hover {
-      background: var(--dark, #2a2420);
-      color: #fff;
-      border-color: var(--dark, #2a2420);
-    }
-
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 3rem;
-      color: var(--muted, #9a9087);
-    }
+    .testi-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.1rem; }
+    .testi-card { background:#fff; border:1px solid var(--sand,#f0ece4); border-radius:14px; padding:1.3rem 1.4rem; display:flex; flex-direction:column; gap:.75rem; transition:box-shadow .2s,transform .2s; position:relative; }
+    .testi-card:hover { box-shadow:0 6px 24px rgba(0,0,0,.08); transform:translateY(-2px); }
+    .testi-card-quote { position:absolute; top:1rem; right:1.2rem; font-family:'Cormorant Garamond',serif; font-size:3rem; line-height:1; color:var(--sand,#e0d9d0); pointer-events:none; user-select:none; }
+    .testi-header { display:flex; align-items:center; gap:.75rem; }
+    .testi-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#f0e8dd,#e0d0c0); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; color:var(--dark,#2a2420); flex-shrink:0; }
+    .testi-nama { font-weight:500; font-size:.9rem; color:var(--dark,#2a2420); }
+    .testi-date { font-size:.72rem; color:var(--muted,#9a9087); }
+    .testi-rating { display:flex; gap:.15rem; }
+    .star { font-size:.9rem; }
+    .star.filled { color:#c9a44a; }
+    .star.empty  { color:var(--sand,#d0cac2); }
+    .testi-pesan { font-family:'Cormorant Garamond',serif; font-size:1rem; line-height:1.6; color:var(--dark,#3a332e); font-style:italic; }
+    .testi-footer { display:flex; align-items:center; justify-content:space-between; border-top:1px solid var(--sand,#f0ece4); padding-top:.75rem; margin-top:auto; }
+    .testi-actions { display:flex; gap:.4rem; }
+    .testi-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .testi-stat { background:#fff; border:1px solid var(--sand,#f0ece4); border-radius:12px; padding:1rem 1.2rem; text-align:center; }
+    .testi-stat-val { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:600; color:var(--dark,#2a2420); }
+    .testi-stat-label { font-size:.72rem; color:var(--muted,#9a9087); text-transform:uppercase; letter-spacing:.06em; }
+    .testi-stat-stars { color:#c9a44a; font-size:1.1rem; }
+    .filter-tabs { display:flex; gap:.4rem; margin-bottom:1rem; }
+    .filter-tab { padding:.35rem .9rem; border-radius:20px; border:1px solid var(--sand,#d0cac2); font-size:.78rem; cursor:pointer; background:none; color:var(--muted,#9a9087); transition:all .15s; }
+    .filter-tab.active, .filter-tab:hover { background:var(--dark,#2a2420); color:#fff; border-color:var(--dark,#2a2420); }
+    .empty-state { grid-column:1/-1; text-align:center; padding:3rem; color:var(--muted,#9a9087); }
   </style>
 </head>
 <body>
@@ -157,7 +43,7 @@
   <div class="admin-topbar">
     <button id="sidebar-toggle">☰</button>
     <h1 class="topbar-title">Manajemen <em>Testimoni</em></h1>
-    <a href="/admin/testimoni/tambah.php" class="btn btn-primary btn-sm">+ Tambah</a>
+    <a href="<?= base_url('admin/testimoni/tambah.php') ?>" class="btn btn-primary btn-sm">+ Tambah</a>
   </div>
 
   <div class="admin-body">
@@ -167,13 +53,11 @@
     <?php endif; ?>
 
     <?php
-    // Hitung statistik
     $total      = count($list);
     $aktif      = array_filter($list, fn($t) => $t['aktif']);
     $avg_rating = $total > 0 ? round(array_sum(array_column($list, 'rating')) / $total, 1) : 0;
     ?>
 
-    <!-- Stats -->
     <div class="testi-stats">
       <div class="testi-stat">
         <div class="testi-stat-val"><?= $total ?></div>
@@ -190,14 +74,12 @@
       </div>
     </div>
 
-    <!-- Filter Tabs -->
     <div class="filter-tabs">
       <button class="filter-tab active" data-filter="all">Semua</button>
       <button class="filter-tab" data-filter="aktif">Ditampilkan</button>
       <button class="filter-tab" data-filter="nonaktif">Disembunyikan</button>
     </div>
 
-    <!-- Cards -->
     <div class="testi-grid" id="testi-grid">
       <?php if (empty($list)): ?>
       <div class="empty-state">
@@ -225,8 +107,8 @@
             <?= $t['aktif'] ? 'Tampil' : 'Disembunyikan' ?>
           </span>
           <div class="testi-actions">
-            <a href="/admin/testimoni/edit.php?id=<?= $t['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
-            <a href="/admin/testimoni/hapus.php?id=<?= $t['id'] ?>" class="btn btn-hapus btn-sm"
+            <a href="<?= base_url('admin/testimoni/edit.php?id=' . $t['id']) ?>" class="btn btn-outline btn-sm">Edit</a>
+            <a href="<?= base_url('admin/testimoni/hapus.php?id=' . $t['id']) ?>" class="btn btn-hapus btn-sm"
                onclick="return confirm('Hapus testimoni dari <?= htmlspecialchars(addslashes($t['nama'])) ?>?')">Hapus</a>
           </div>
         </div>
@@ -234,20 +116,12 @@
       <?php endforeach; endif; ?>
     </div>
 
-    <!-- Tabel ringkasan (tetap tersedia sebagai referensi) -->
     <div class="panel" style="margin-top:2rem;">
       <div class="panel-title">Semua Testimoni (Tabel)</div>
       <div class="tbl-wrap">
         <table>
           <thead>
-            <tr>
-              <th>Nama</th>
-              <th>Pesan</th>
-              <th>Rating</th>
-              <th>Status</th>
-              <th>Tanggal</th>
-              <th>Aksi</th>
-            </tr>
+            <tr><th>Nama</th><th>Pesan</th><th>Rating</th><th>Status</th><th>Tanggal</th><th>Aksi</th></tr>
           </thead>
           <tbody>
             <?php if (empty($list)): ?>
@@ -264,8 +138,8 @@
               <td><span class="badge <?= $t['aktif'] ? 'badge-aktif' : 'badge-nonaktif' ?>"><?= $t['aktif'] ? 'Tampil' : 'Disembunyikan' ?></span></td>
               <td style="white-space:nowrap;"><?= date('d M Y', strtotime($t['dibuat_pada'])) ?></td>
               <td style="white-space:nowrap;">
-                <a href="/admin/testimoni/edit.php?id=<?= $t['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
-                <a href="/admin/testimoni/hapus.php?id=<?= $t['id'] ?>" class="btn btn-hapus btn-sm"
+                <a href="<?= base_url('admin/testimoni/edit.php?id=' . $t['id']) ?>" class="btn btn-outline btn-sm">Edit</a>
+                <a href="<?= base_url('admin/testimoni/hapus.php?id=' . $t['id']) ?>" class="btn btn-hapus btn-sm"
                    onclick="return confirm('Hapus?')">Hapus</a>
               </td>
             </tr>
@@ -278,7 +152,7 @@
   </div>
 </div>
 
-<script src="/js/admin.js"></script>
+<script src="<?= base_url('js/admin.js') ?>"></script>
 <script>
 document.querySelectorAll('.filter-tab').forEach(tab => {
   tab.addEventListener('click', function() {
@@ -286,11 +160,7 @@ document.querySelectorAll('.filter-tab').forEach(tab => {
     this.classList.add('active');
     const f = this.dataset.filter;
     document.querySelectorAll('.testi-card').forEach(card => {
-      if (f === 'all' || card.dataset.aktif === f) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
+      card.style.display = (f === 'all' || card.dataset.aktif === f) ? '' : 'none';
     });
   });
 });

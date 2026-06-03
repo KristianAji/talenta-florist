@@ -15,6 +15,10 @@ $menus = [
     ['slug' => 'produk',     'icon' => '🌸', 'label' => 'Produk',     'href' => base_url('admin/produk/index.php')],
     ['slug' => 'kategori',   'icon' => '🏷', 'label' => 'Kategori',   'href' => base_url('admin/kategori/index.php')],
     ['slug' => 'testimoni',  'icon' => '⭐', 'label' => 'Testimoni',  'href' => base_url('admin/testimoni/index.php')],
+    ['slug' => 'pelanggan',  'icon' => '👥', 'label' => 'Pelanggan',  'href' => base_url('admin/pelanggan/index.php')],
+    ['slug' => 'pesanan',    'icon' => '📦', 'label' => 'Pesanan',    'href' => base_url('admin/pesanan/index.php')],
+    ['slug' => 'sentimen',   'icon' => '🧠', 'label' => 'Sentimen',   'href' => base_url('admin/sentimen/index.php')],
+    ['slug' => 'laporan',    'icon' => '📊', 'label' => 'Laporan',    'href' => base_url('admin/laporan/index.php')],
     ['slug' => 'pengaturan', 'icon' => '⚙', 'label' => 'Pengaturan', 'href' => base_url('admin/pengaturan.php')],
 ];
 ?>
@@ -23,6 +27,7 @@ $menus = [
   <div class="sidebar-logo">
     <a href="<?= base_url('index.php') ?>" class="s-logo">Talenta <span>Florist</span></a>
     <span class="s-tag">Admin Panel</span>
+    <button id="sidebar-close" class="sidebar-close">✕</button>
   </div>
 
   <nav class="sidebar-nav">
@@ -40,7 +45,8 @@ $menus = [
       <span class="s-admin-avatar"><?= mb_strtoupper(mb_substr($_SESSION['admin_nama'] ?? 'A', 0, 1)) ?></span>
       <span class="s-admin-name"><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></span>
     </div>
-    <a href="<?= base_url('logout.php') ?>" class="s-logout" title="Keluar">⏻</a>
+    <a href="<?= base_url('logout.php') ?>" class="s-logout" title="Keluar" 
+   style="font-size:.75rem;letter-spacing:.05em;">KELUAR</a>
   </div>
 
 </aside>

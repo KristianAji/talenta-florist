@@ -15,9 +15,9 @@ if ($id) {
     }
 
     db()->prepare('DELETE FROM produk WHERE id=?')->execute([$id]);
-    $_SESSION['flash'] = ['type'=>'success', 'msg'=>'Produk berhasil dihapus.'];
+    $_SESSION['flash'] = ['type' => 'success', 'msg' => 'Produk berhasil dihapus.'];
 } else {
-    $_SESSION['flash'] = ['type'=>'error', 'msg'=>'ID produk tidak valid.'];
+    $_SESSION['flash'] = ['type' => 'error', 'msg' => 'ID produk tidak valid.'];
 }
 
 header('Location: ' . base_url('admin/produk/index.php'));

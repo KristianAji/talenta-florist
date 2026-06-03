@@ -25,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $kategori_id = (int)($_POST['kategori_id'] ?? 0);
     $aktif       = isset($_POST['aktif']) ? 1 : 0;
 
-    $var_id     = $_POST['var_id']    ?? [];
-    $var_nama   = $_POST['var_nama']  ?? [];
-    $var_harga  = $_POST['var_harga'] ?? [];
+    $var_id    = $_POST['var_id']    ?? [];
+    $var_nama  = $_POST['var_nama']  ?? [];
+    $var_harga = $_POST['var_harga'] ?? [];
 
     if (!$nama)        $errors[] = 'Nama produk wajib diisi.';
     if (!$kategori_id) $errors[] = 'Kategori wajib dipilih.';
@@ -55,13 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $vh  = (int)($var_harga[$i] ?? 0);
                 $vid = (int)($var_id[$i]    ?? 0);
 
-                $gambar = null;
+                $gambar   = null;
                 $file_key = "var_gambar_$i";
                 if (!empty($_FILES[$file_key]['tmp_name'])) {
                     $ext     = strtolower(pathinfo($_FILES[$file_key]['name'], PATHINFO_EXTENSION));
                     $allowed = ['jpg','jpeg','png','webp'];
                     if (in_array($ext, $allowed)) {
-                        $dir  = __DIR__ . '/../../uploads/';
+                        $dir   = __DIR__ . '/../../uploads/';
                         $fname = uniqid('img_') . '.' . $ext;
                         if (move_uploaded_file($_FILES[$file_key]['tmp_name'], $dir . $fname)) {
                             $gambar = 'uploads/' . $fname;
@@ -92,9 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Edit produk admin Talenta Florist." />
   <title>Edit Produk – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/produk.css') ?>" />
 </head>
 <body>
 
@@ -126,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <select name="kategori_id" required>
               <option value="">– Pilih Kategori –</option>
               <?php foreach ($kategori_list as $k): ?>
-              <option value="<?= $k['id'] ?>" <?= $produk['kategori_id']==$k['id']?'selected':'' ?>>
+              <option value="<?= $k['id'] ?>" <?= $produk['kategori_id'] == $k['id'] ? 'selected' : '' ?>>
                 <?= htmlspecialchars($k['nama']) ?>
               </option>
               <?php endforeach; ?>
@@ -142,9 +144,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label>Badge (opsional)</label>
             <input type="text" name="badge" value="<?= htmlspecialchars($produk['badge'] ?? '') ?>" />
           </div>
-          <div class="form-group" style="display:flex;align-items:center;padding-top:1.6rem;">
+          <div class="form-group form-group--checkbox">
             <label class="form-check">
-              <input type="checkbox" name="aktif" value="1" <?= $produk['aktif']?'checked':'' ?> />
+              <input type="checkbox" name="aktif" value="1" <?= $produk['aktif'] ? 'checked' : '' ?> />
               Produk Aktif
             </label>
           </div>
@@ -171,7 +173,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
               <label>Gambar Variasi (kosongkan jika tidak diubah)</label>
               <?php if ($v['gambar']): ?>
-              <img src="<?= base_url($v['gambar']) ?>" style="width:80px;height:80px;object-fit:cover;border-radius:8px;margin-bottom:.5rem;display:block;" />
+              <img src="<?= base_url($v['gambar']) ?>" class="variasi-img-current" alt="<?= htmlspecialchars($v['nama']) ?>" />
               <?php endif; ?>
               <input type="file" name="var_gambar_<?= $i ?>" accept="image/*" data-preview="prev_<?= $i ?>" />
               <img id="prev_<?= $i ?>" class="img-preview" src="" alt="" />
@@ -182,7 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="button" id="btn-add-variasi">+ Tambah Variasi</button>
       </div>
 
-      <div style="display:flex;gap:.8rem;">
+      <div class="form-actions">
         <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
         <a href="<?= base_url('admin/produk/index.php') ?>" class="btn btn-outline">Batal</a>
       </div>
@@ -217,7 +219,7 @@ document.getElementById('btn-add-variasi').addEventListener('click', () => {
       <img id="prev_new_${idx}" class="img-preview" />
     </div>`;
   list.appendChild(div);
-  div.querySelector('input[type=file]').addEventListener('change', function () {
+  div.querySelector('input[type=file]').addEventListener('change', function() {
     const p = document.getElementById(this.dataset.preview);
     if (!p) return;
     const r = new FileReader();
@@ -229,7 +231,7 @@ document.getElementById('btn-add-variasi').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.remove-variasi').forEach(btn => {
-  btn.addEventListener('click', function () {
+  btn.addEventListener('click', function() {
     const items = document.querySelectorAll('.variasi-item');
     if (items.length > 1) this.closest('.variasi-item').remove();
   });

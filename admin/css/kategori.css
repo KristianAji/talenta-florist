@@ -1,0 +1,72 @@
+/* ============================================================
+   kategori.css — Halaman Manajemen Kategori
+   Requires: admin-shared.css
+   ============================================================ */
+
+/* ── LAYOUT DUA KOLOM (list + form) ── */
+.kategori-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* ── KATEGORI CARD GRID ── */
+.kategori-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.kategori-card {
+  background: #f7f3ef;
+  border: 1.5px solid var(--sand);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  transition: box-shadow .2s, border-color .2s;
+}
+.kategori-card:hover {
+  border-color: var(--blush);
+  box-shadow: 0 4px 16px rgba(61,43,36,.08);
+}
+.kategori-card-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--deep);
+}
+.kategori-card-count {
+  font-size: .72rem;
+  color: var(--muted);
+  letter-spacing: .05em;
+}
+.kategori-card-actions {
+  display: flex;
+  gap: .5rem;
+  margin-top: .25rem;
+}
+
+/* ── SLUG PREVIEW ── */
+.slug-preview {
+  font-size: .75rem;
+  color: var(--muted);
+  margin-top: .3rem;
+  font-style: italic;
+}
+
+/* ── EMPTY STATE ── */
+.kategori-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--muted);
+  font-size: .88rem;
+}
+.kategori-empty-icon { font-size: 2.5rem; margin-bottom: .75rem; opacity: .4; }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .kategori-layout { grid-template-columns: 1fr; }
+}

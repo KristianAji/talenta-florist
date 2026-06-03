@@ -64,6 +64,17 @@ CREATE TABLE IF NOT EXISTS anggota (
   urutan INT DEFAULT 0
 ) ENGINE=InnoDB;
 
+-- TABEL PELANGGAN --
+CREATE TABLE IF NOT EXISTS pelanggan (
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  nama        VARCHAR(100) NOT NULL,
+  username    VARCHAR(60)  NOT NULL UNIQUE,
+  email       VARCHAR(100) NOT NULL UNIQUE,
+  password    VARCHAR(255) NOT NULL,
+  telepon     VARCHAR(20),
+  alamat      TEXT
+) ENGINE=InnoDB;
+
 -- ============================================================
 -- SEED DATA
 -- ============================================================

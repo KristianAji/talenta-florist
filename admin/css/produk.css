@@ -1,0 +1,166 @@
+/* ============================================================
+   produk.css — Halaman Manajemen Produk
+   Requires: admin-shared.css
+   ============================================================ */
+
+/* ── TABLE IMAGE ── */
+.tbl-img { width: 52px; height: 52px; object-fit: cover; border-radius: 8px; background: var(--sand); }
+
+/* ── FILTER & SEARCH BAR ── */
+.produk-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.produk-search {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: #fff;
+  border: 1.5px solid var(--sand);
+  border-radius: 2rem;
+  padding: .4rem 1rem;
+  flex: 1;
+  max-width: 320px;
+}
+.produk-search input {
+  border: none;
+  outline: none;
+  font-size: .85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  background: transparent;
+  width: 100%;
+}
+.produk-search-icon { color: var(--muted); font-size: 1rem; }
+
+/* ── FORM TAMBAH / EDIT PRODUK ── */
+.img-preview {
+  width: 100px; height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid var(--sand);
+  margin-top: .5rem;
+  display: none;
+}
+
+/* ── VARIASI SECTION ── */
+.variasi-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+.variasi-item {
+  background: #f7f3ef;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  position: relative;
+  border: 1.5px solid var(--sand);
+}
+.variasi-item .remove-variasi {
+  position: absolute; top: .6rem; right: .8rem;
+  background: none; border: none; cursor: pointer;
+  color: #e74c3c; font-size: 1.1rem;
+}
+#btn-add-variasi {
+  margin-top: .5rem;
+  background: transparent;
+  border: 1.5px dashed var(--blush);
+  color: var(--rose);
+  padding: .5rem 1.2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-size: .78rem;
+  font-family: 'DM Sans', sans-serif;
+  transition: all .2s;
+}
+#btn-add-variasi:hover { border-color: var(--rose); background: rgba(201,122,106,.05); }
+
+/* ── STOK BADGE ── */
+.badge-stok-habis { background: #f8d7da; color: #721c24; }
+.badge-stok-menipis { background: #fff3cd; color: #856404; }
+.badge-stok-tersedia { background: #d4edda; color: #155724; }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .produk-toolbar { flex-direction: column; align-items: stretch; }
+  .produk-search { max-width: 100%; }
+}
+
+/* ── FILTER PANEL ── */
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  align-items: center;
+}
+.filter-form input[type=text] {
+  padding: .6rem 1.1rem;
+  border: 1.5px solid var(--sand);
+  border-radius: 2rem;
+  font-size: .85rem;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  outline: none;
+  min-width: 220px;
+  background: #fff;
+  color: var(--text);
+  transition: border-color .2s;
+}
+.filter-form input[type=text]:focus { border-color: var(--rose); }
+.filter-form select {
+  padding: .6rem 1.1rem;
+  border: 1.5px solid var(--sand);
+  border-radius: 2rem;
+  font-size: .85rem;
+  font-family: 'DM Sans', sans-serif;
+  background: #fff;
+  outline: none;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* ── TBL-IMG EMPTY STATE ── */
+.tbl-img--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+/* ── FORM CHECKBOX ROW ── */
+.form-group--checkbox {
+  display: flex;
+  align-items: center;
+  padding-top: 1.6rem;
+}
+
+/* ── VARIASI EXISTING IMAGE ── */
+.variasi-img-current {
+  width: 80px; height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: .5rem;
+  display: block;
+}
+
+/* ── FORM ACTION ROW ── */
+.form-actions {
+  display: flex;
+  gap: .8rem;
+  margin-top: .5rem;
+}
+
+/* ── VARIASI HINT TEXT ── */
+.variasi-hint {
+  font-size: .82rem;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .filter-form { flex-direction: column; align-items: stretch; }
+  .filter-form input[type=text],
+  .filter-form select { min-width: 0; width: 100%; }
+}

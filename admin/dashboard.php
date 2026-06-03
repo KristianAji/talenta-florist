@@ -30,10 +30,11 @@ $produk_baru = db()->query("
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Halaman dashboard admin Talenta Florist." />
   <title>Dashboard – Admin Talenta Florist</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <!-- admin.css menggunakan base_url agar benar di localhost maupun hosting -->
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/dashboard.css') ?>" />
 </head>
 <body>
 
@@ -79,7 +80,7 @@ $produk_baru = db()->query("
 
     <!-- ── PRODUK TERBARU ── -->
     <div class="panel">
-      <div class="panel-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="panel-title panel-title--flex">
         Produk Terbaru
         <a href="<?= base_url('admin/produk/index.php') ?>" class="btn btn-outline btn-sm">Lihat Semua</a>
       </div>
@@ -105,9 +106,9 @@ $produk_baru = db()->query("
             <tr>
               <td>
                 <?php if ($p['gambar']): ?>
-                <img class="tbl-img" src="<?= base_url($p['gambar']) ?>" alt="" />
+                <img class="tbl-img" src="<?= base_url($p['gambar']) ?>" alt="<?= htmlspecialchars($p['nama']) ?>" />
                 <?php else: ?>
-                <div class="tbl-img" style="display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--sand);">🌸</div>
+                <div class="tbl-img tbl-img--empty">🌸</div>
                 <?php endif; ?>
               </td>
               <td style="font-weight:500;"><?= htmlspecialchars($p['nama']) ?></td>

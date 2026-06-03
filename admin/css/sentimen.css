@@ -1,0 +1,115 @@
+/* ============================================================
+   sentimen.css — Halaman Analisis Sentimen
+   Requires: admin-shared.css
+   ============================================================ */
+
+/* ── SENTIMEN SCORE CARD ── */
+.sentimen-score-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.sentimen-score-card {
+  border-radius: 14px;
+  padding: 1.4rem 1.2rem;
+  text-align: center;
+  box-shadow: 0 2px 16px rgba(61,43,36,.06);
+}
+.sentimen-score-card.positif  { background: #d4edda; }
+.sentimen-score-card.netral   { background: #e2e3e5; }
+.sentimen-score-card.negatif  { background: #f8d7da; }
+.sentimen-score-pct {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 600;
+  line-height: 1;
+}
+.sentimen-score-card.positif .sentimen-score-pct { color: #155724; }
+.sentimen-score-card.netral  .sentimen-score-pct { color: #383d41; }
+.sentimen-score-card.negatif .sentimen-score-pct { color: #721c24; }
+.sentimen-score-label {
+  font-size: .7rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-top: .4rem;
+  opacity: .75;
+}
+
+/* ── PROGRESS BAR SENTIMEN ── */
+.sentimen-bar-wrap { margin-bottom: 1rem; }
+.sentimen-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: .78rem;
+  color: var(--muted);
+  margin-bottom: .3rem;
+}
+.sentimen-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--sand);
+  overflow: hidden;
+}
+.sentimen-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .6s ease;
+}
+.sentimen-bar-fill.positif  { background: #28a745; }
+.sentimen-bar-fill.netral   { background: #6c757d; }
+.sentimen-bar-fill.negatif  { background: #dc3545; }
+
+/* ── WORD CLOUD PLACEHOLDER ── */
+.wordcloud-wrap {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7f3ef;
+  border-radius: 12px;
+  border: 1.5px dashed var(--blush);
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+/* ── SENTIMEN ITEM (list ulasan dengan label) ── */
+.sentimen-list { display: flex; flex-direction: column; gap: .75rem; }
+.sentimen-item {
+  background: var(--cream);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  box-shadow: 0 1px 8px rgba(61,43,36,.04);
+}
+.sentimen-label {
+  flex-shrink: 0;
+  padding: .2rem .65rem;
+  border-radius: 2rem;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.sentimen-label.positif { background: #d4edda; color: #155724; }
+.sentimen-label.netral  { background: #e2e3e5; color: #383d41; }
+.sentimen-label.negatif { background: #f8d7da; color: #721c24; }
+.sentimen-item-text { font-size: .84rem; line-height: 1.6; }
+.sentimen-item-meta { font-size: .7rem; color: var(--muted); margin-top: .3rem; }
+
+/* ── CHART AREA ── */
+.sentimen-chart-wrap {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .sentimen-score-cards { grid-template-columns: repeat(3, 1fr); }
+  .sentimen-item { flex-direction: column; gap: .5rem; }
+}
