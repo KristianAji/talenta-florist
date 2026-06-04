@@ -50,9 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pengaturan akun admin Talenta Florist." />
   <title>Pengaturan – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/pengaturan.css') ?>" />
 </head>
 <body>
 
@@ -74,22 +76,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="flash-msg flash-success"><?= htmlspecialchars($success) ?></div>
     <?php endif; ?>
 
-    <div class="panel" style="max-width:540px;">
+    <div class="panel panel--narrow">
       <div class="panel-title">Profil Admin</div>
       <form method="post">
+
         <div class="form-group">
           <label>Nama Tampil</label>
           <input type="text" name="nama" value="<?= htmlspecialchars($admin['nama']) ?>" required />
         </div>
         <div class="form-group">
           <label>Username (tidak bisa diubah)</label>
-          <input type="text" value="<?= htmlspecialchars($admin['username']) ?>" disabled
-                 style="background:var(--sand);color:var(--muted);" />
+          <input type="text" value="<?= htmlspecialchars($admin['username']) ?>" class="input-disabled" disabled />
         </div>
 
-        <div class="panel-title" style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--sand);">
+        <div class="panel-divider">
           Ganti Password
-          <small style="font-weight:300;font-size:.78rem;color:var(--muted);">(kosongkan jika tidak ingin mengganti)</small>
+          <small>(kosongkan jika tidak ingin mengganti)</small>
         </div>
 
         <div class="form-group">
@@ -105,9 +107,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <input type="password" name="pw_konfirm" autocomplete="new-password" />
         </div>
 
-        <div style="display:flex;gap:.8rem;margin-top:1rem;">
+        <div class="form-actions">
           <button class="btn btn-primary" type="submit">Simpan Perubahan</button>
         </div>
+
       </form>
     </div>
 

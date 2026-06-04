@@ -11,7 +11,7 @@ $anggota = db()->query('SELECT * FROM anggota ORDER BY urutan')->fetchAll();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tentang Kami – Talenta Florist</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/tentang.css" />
 </head>
 <body>
   <div class="petal"></div><div class="petal"></div><div class="petal"></div>
@@ -28,7 +28,7 @@ $anggota = db()->query('SELECT * FROM anggota ORDER BY urutan')->fetchAll();
     <div style="display:flex;gap:.75rem;align-items:center;">
       <?php if (!empty($_SESSION['pelanggan_id'])): ?>
         <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Pesanan</a>
+        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
         <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
       <?php else: ?>
         <a class="btn btn-outline btn-sm" href="login.php">Masuk</a>

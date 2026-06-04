@@ -8,7 +8,7 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cara Pesan – Talenta Florist</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pesan.css" />
 </head>
 <body>
   <div class="petal"></div><div class="petal"></div>
@@ -25,7 +25,7 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
     <div style="display:flex;gap:.75rem;align-items:center;">
       <?php if (!empty($_SESSION['pelanggan_id'])): ?>
         <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Pesanan</a>
+        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
         <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
       <?php else: ?>
         <a class="btn btn-outline btn-sm" href="login.php">Masuk</a>
@@ -91,24 +91,6 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
   </footer>
 
   <script src="js/main.js"></script>
-  <script>
-    const steps   = document.querySelectorAll('.step');
-    const stepObs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        steps.forEach((s, i) => setTimeout(() => s.classList.add('show'), 300 + i * 180));
-        stepObs.disconnect();
-      }
-    }, { threshold:.2 });
-    if (steps.length) stepObs.observe(document.querySelector('.steps-grid'));
-
-    document.querySelectorAll('.faq-q').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item   = btn.closest('.faq-item');
-        const isOpen = item.classList.contains('open');
-        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-        if (!isOpen) item.classList.add('open');
-      });
-    });
-  </script>
+  <script src="js/pesan.js"></script>
 </body>
 </html>

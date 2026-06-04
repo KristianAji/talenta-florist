@@ -31,7 +31,7 @@ $status_label = [
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Riwayat Pesanan – Talenta Florist</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/riwayat_pesanan.css" />
 </head>
 <body style="display:flex;flex-direction:column;min-height:100vh;">
 
@@ -46,7 +46,7 @@ $status_label = [
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
       <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-      <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Lihat Riwayat Pesanan</a>
+      <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
       <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
     </div>
   </nav>

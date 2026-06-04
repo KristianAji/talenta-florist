@@ -1,0 +1,12 @@
+/* =============================================
+   daftar.css — Halaman Daftar/Register (daftar.php)
+   ============================================= */
+@import url('base.css');
+
+/* Semua style (.page-wrap, .card, .card-eyebrow, .card-title,
+   .card-sub, .divider-or, .link-row) sudah ada di base.css */
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 480px) {
+  .card { padding:2rem 1.5rem; }
+}

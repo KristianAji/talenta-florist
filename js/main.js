@@ -40,3 +40,11 @@ const revealObs = new IntersectionObserver(entries => {
 }, { threshold: .12 });
 
 document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+
+// ── RESET ANIMASI SAAT BACK/FORWARD ──
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    document.body.style.animation = '';
+    document.body.style.opacity   = '1';
+  }
+});

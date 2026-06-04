@@ -14,7 +14,7 @@ $testimoni     = db()->query('SELECT * FROM testimoni WHERE aktif=1 ORDER BY dib
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Talenta Florist – Kota Tomohon</title>
-  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('css/index.css') ?>" />
 </head>
 <body>
   <?php if (is_admin_browsing()): ?>
@@ -43,7 +43,7 @@ $testimoni     = db()->query('SELECT * FROM testimoni WHERE aktif=1 ORDER BY dib
           <span class="nav-user">Admin: <strong><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></strong></span>
         <?php elseif (is_pelanggan()): ?>
           <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-          <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Pesanan</a>
+          <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
           <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
         <?php else: ?>
           <a class="btn btn-outline btn-sm" href="<?= base_url('login.php') ?>">Masuk</a>

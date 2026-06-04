@@ -4,12 +4,162 @@
    ============================================================ */
 
 /* ── STATUS BADGE PESANAN ── */
-.badge-menunggu    { background: #fff3cd; color: #856404; }
-.badge-diproses    { background: #cce5ff; color: #004085; }
-.badge-dikirim     { background: #d1ecf1; color: #0c5460; }
-.badge-selesai     { background: #d4edda; color: #155724; }
-.badge-dibatalkan  { background: #f8d7da; color: #721c24; }
-.badge-dikembalikan{ background: #e2d9f3; color: #4a235a; }
+.badge-menunggu     { background: #fff3cd; color: #856404; }
+.badge-diproses     { background: #cce5ff; color: #004085; }
+.badge-dikirim      { background: #d1ecf1; color: #0c5460; }
+.badge-selesai      { background: #d4edda; color: #155724; }
+.badge-dibatalkan   { background: #f8d7da; color: #721c24; }
+.badge-dikembalikan { background: #e2d9f3; color: #4a235a; }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-box {
+  background: #fff;
+  border: 1px solid var(--sand);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  text-align: center;
+}
+.stat-box-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--rose);
+}
+.stat-box-num--warning { color: #c9a44a; }
+.stat-box-num--info    { color: #185fa5; }
+.stat-box-num--success { color: #3b6d11; }
+.stat-box-lbl {
+  font-size: .68rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── FILTER TABS ── */
+.filter-tabs {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.filter-tab {
+  padding: .4rem 1.1rem;
+  border-radius: 2rem;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1.5px solid var(--sand);
+  color: var(--muted);
+  transition: all .2s;
+}
+.filter-tab:hover,
+.filter-tab.active {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: #fff;
+}
+
+/* ── STATUS BADGE (tabel) ── */
+.status-badge {
+  display: inline-block;
+  padding: .2rem .75rem;
+  border-radius: 2rem;
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.status-badge--menunggu     { background: #faeeda; color: #7a5010; }
+.status-badge--dikonfirmasi { background: #eaf3de; color: #3b6d11; }
+.status-badge--dikirim      { background: #e6f1fb; color: #185fa5; }
+.status-badge--selesai      { background: #eaf3de; color: #3b6d11; }
+.status-badge--dibatalkan   { background: #fcebeb; color: #a32d2d; }
+
+/* ── PRODUK KOLOM ── */
+.produk-col {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.order-img {
+  width: 48px; height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--sand);
+}
+.order-img-ph {
+  width: 48px; height: 48px;
+  border-radius: 8px;
+  background: var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.produk-info strong { display: block; font-weight: 500; font-size: .88rem; }
+.produk-info span   { font-size: .75rem; color: var(--muted); }
+
+/* ── PELANGGAN / PENERIMA KOLOM ── */
+.col-nama-utama  { font-weight: 500; font-size: .85rem; }
+.col-nama-sub    { font-size: .72rem; color: var(--muted); }
+
+/* ── KOLOM TABEL UMUM ── */
+.col-id       { color: var(--muted); font-size: .8rem; }
+.col-center   { text-align: center; }
+.col-total    { font-weight: 500; white-space: nowrap; }
+.col-tanggal  { font-size: .78rem; color: var(--muted); white-space: nowrap; }
+.col-aksi     { white-space: nowrap; }
+
+/* ── EMPTY STATE ── */
+.tbl-empty-lg {
+  text-align: center;
+  padding: 2.5rem;
+  color: var(--muted);
+}
+
+/* ── TOPBAR INFO ── */
+.topbar-info { font-size: .78rem; color: var(--muted); }
+
+/* ── FORM AKSI STATUS ── */
+.status-form {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  align-items: flex-start;
+}
+.status-form-row {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+}
+select.status-sel {
+  padding: .35rem .7rem;
+  border: 1.5px solid var(--sand);
+  border-radius: 8px;
+  font-size: .78rem;
+  font-family: 'DM Sans', sans-serif;
+  background: #fff;
+  color: var(--deep);
+  outline: none;
+  cursor: pointer;
+}
+select.status-sel:focus { border-color: var(--rose); }
+
+/* ── TOMBOL WHATSAPP ── */
+.btn-wa {
+  background: #25d366;
+  color: #fff;
+  margin-left: .3rem;
+}
+.btn-wa:hover { background: #1da851; color: #fff; }
 
 /* ── PESANAN TOOLBAR ── */
 .pesanan-toolbar {
@@ -84,9 +234,9 @@
   background: var(--sand);
   flex-shrink: 0;
 }
-.pesanan-item-name { font-size: .88rem; font-weight: 400; }
+.pesanan-item-name    { font-size: .88rem; font-weight: 400; }
 .pesanan-item-variasi { font-size: .74rem; color: var(--muted); margin-top: .1rem; }
-.pesanan-item-qty { font-size: .8rem; color: var(--muted); }
+.pesanan-item-qty     { font-size: .8rem; color: var(--muted); }
 .pesanan-item-harga {
   margin-left: auto;
   font-family: 'Cormorant Garamond', serif;
@@ -126,22 +276,12 @@
 }
 
 /* ── TIMELINE STATUS ── */
-.status-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-top: .5rem;
-}
-.status-step {
-  display: flex;
-  gap: .85rem;
-  position: relative;
-}
+.status-timeline { display: flex; flex-direction: column; gap: 0; margin-top: .5rem; }
+.status-step { display: flex; gap: .85rem; position: relative; }
 .status-step:not(:last-child)::before {
   content: '';
   position: absolute;
-  left: 7px;
-  top: 18px;
+  left: 7px; top: 18px;
   width: 2px;
   height: calc(100% - 4px);
   background: var(--sand);
@@ -156,15 +296,15 @@
   box-shadow: 0 0 0 2px var(--sand);
   z-index: 1;
 }
-.status-dot.done { background: var(--green); box-shadow: 0 0 0 2px rgba(90,122,90,.25); }
-.status-dot.current { background: var(--rose); box-shadow: 0 0 0 2px rgba(201,122,106,.25); }
-.status-step-info { padding-bottom: 1.2rem; }
+.status-dot.done    { background: var(--green); box-shadow: 0 0 0 2px rgba(90,122,90,.25); }
+.status-dot.current { background: var(--rose);  box-shadow: 0 0 0 2px rgba(201,122,106,.25); }
+.status-step-info  { padding-bottom: 1.2rem; }
 .status-step-label { font-size: .83rem; }
 .status-step-time  { font-size: .7rem; color: var(--muted); }
 
 /* ── MOBILE ── */
 @media (max-width: 768px) {
-  .pesanan-toolbar { flex-direction: column; align-items: stretch; }
-  .pesanan-search { max-width: 100%; }
+  .pesanan-toolbar       { flex-direction: column; align-items: stretch; }
+  .pesanan-search        { max-width: 100%; }
   .pesanan-detail-header { flex-direction: column; }
 }

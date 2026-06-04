@@ -1,0 +1,88 @@
+/* =============================================
+   tentang.css — Halaman Tentang (tentang.php)
+   ============================================= */
+@import url('base.css');
+
+/* ── ABOUT SECTION ───────────────────────────── */
+.about-section  { padding:6rem 5vw; position:relative; }
+.about-grid     { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:center; }
+.about-img-wrap { position:relative; }
+.about-img-wrap img {
+  width:       100%;
+  height:      auto;
+  max-height:  550px;
+  object-fit:  cover;
+  border-radius: 2px 60px 2px 2px;
+  box-shadow:  var(--shadow-lg);
+  transition:  transform .4s cubic-bezier(.22,1,.36,1);
+  display:     block;
+}
+.about-img-wrap img:hover { transform:rotate(-1.5deg) scale(1.02); }
+
+.about-badge {
+  position:        absolute;
+  bottom:          -1.5rem;
+  right:           -1.5rem;
+  background:      var(--deep);
+  color:           var(--cream);
+  border-radius:   50%;
+  width:           110px;
+  height:          110px;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  text-align:      center;
+  font-family:     'Cormorant Garamond', serif;
+  z-index:         2;
+  animation:       badgeSpin 1.2s 1s cubic-bezier(.34,1.56,.64,1) both;
+}
+.about-badge-num { font-size:2rem; font-weight:600; line-height:1; }
+.about-badge-txt { font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; opacity:.75; }
+
+.about-features { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+.feature-card {
+  background:    var(--sand);
+  border-radius: var(--radius-sm);
+  padding:       1.1rem;
+  transition:    transform .3s, box-shadow .3s, background .3s;
+}
+.feature-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); background:var(--blush); }
+.feature-icon  { font-size:1.4rem; margin-bottom:.4rem; transition:transform .3s; }
+.feature-card:hover .feature-icon { transform:scale(1.25) rotate(-5deg); }
+.feature-title { font-size:.8rem; font-weight:500; letter-spacing:.04em; margin-bottom:.3rem; }
+.feature-desc  { font-size:.75rem; color:var(--muted); line-height:1.6; }
+
+/* ── ANGGOTA TIM ─────────────────────────────── */
+.anggota-section { background:var(--sand); padding:6rem 5vw; }
+.anggota-grid    { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-top:2.5rem; }
+.anggota-card    { background:var(--cream); border-radius:var(--radius-md); padding:2rem 1.5rem; text-align:center; transition:transform .3s, box-shadow .3s; }
+.anggota-card:hover{ transform:translateY(-6px); box-shadow:0 16px 40px rgba(61,43,36,.12); }
+.anggota-foto    { width:80px; height:80px; border-radius:50%; object-fit:cover; margin:0 auto 1rem; border:3px solid var(--blush); background:var(--sand); display:block; }
+.anggota-foto-placeholder {
+  width:           80px;
+  height:          80px;
+  border-radius:   50%;
+  margin:          0 auto 1rem;
+  background:      linear-gradient(135deg, var(--blush), var(--rose));
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  font-family:     'Cormorant Garamond', serif;
+  font-size:       1.8rem;
+  color:           #fff;
+  font-weight:     600;
+}
+.anggota-nama  { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; margin-bottom:.25rem; }
+.anggota-nim   { font-size:.7rem; letter-spacing:.1em; color:var(--muted); margin-bottom:.4rem; }
+.anggota-peran { font-size:.72rem; background:var(--blush); color:var(--deep); padding:.2rem .6rem; border-radius:var(--radius-full); display:inline-block; }
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 768px) {
+  .about-grid     { grid-template-columns:1fr; gap:2.5rem; }
+  .about-badge    { right:1rem; bottom:-1rem; width:90px; height:90px; }
+  .about-features { grid-template-columns:1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .about-features { grid-template-columns:1fr; }
+}

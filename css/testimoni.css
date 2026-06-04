@@ -1,0 +1,36 @@
+/* =============================================
+   testimoni.css — Halaman Testimoni & Beri Ulasan
+                   (testimoni.php / beri_ulasan.php)
+   ============================================= */
+@import url('base.css');
+
+/* Catatan: .card, .card-eyebrow, .card-title, .card-sub,
+   .user-info, .user-avatar, .user-name, .user-sub,
+   .info-badge, .page-wrap sudah ada di base.css */
+
+/* ── TESTIMONI PUBLIK ────────────────────────── */
+.testi-public-section { padding:6rem 5vw; background:var(--sand); }
+.testi-public-grid    { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:1.5rem; margin-top:2.5rem; }
+.testi-public-card    { background:var(--cream); border-radius:var(--radius-md); padding:1.8rem; transition:transform .3s, box-shadow .3s; }
+.testi-public-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); }
+
+/* ── FORM ULASAN ─────────────────────────────── */
+.ulasan-section { padding:4rem 5vw; display:flex; flex-direction:column; align-items:center; }
+.riwayat-wrap  { width:100%; max-width:560px; margin-top:2rem; }
+.riwayat-label { font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--rose); margin-bottom:1rem; }
+.riwayat-card  { background:#fff; border:1px solid var(--sand); border-radius:var(--radius-md); padding:1.2rem 1.4rem; margin-bottom:1rem; box-shadow:var(--shadow-sm); }
+.riwayat-top   { display:flex; justify-content:space-between; align-items:center; margin-bottom:.6rem; }
+.riwayat-stars { font-size:.95rem; color:#c9a44a; }
+.riwayat-pesan { font-size:.88rem; color:var(--text); line-height:1.7; }
+.badge-approved{ font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; background:#edf7ee; color:#2a6b35; border:1px solid #b8dfc0; padding:.2rem .65rem; border-radius:var(--radius-full); }
+.badge-pending { font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; background:#fdf6ee; color:#996633; border:1px solid #f0d9b0; padding:.2rem .65rem; border-radius:var(--radius-full); }
+
+/* ── STAR RATING INPUT ───────────────────────── */
+.star-group                { margin-bottom:1.4rem; }
+.star-group > label        { display:block; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:.6rem; }
+.star-row                  { display:flex; flex-direction:row-reverse; gap:.3rem; justify-content:flex-end; }
+.star-row input            { display:none; }
+.star-row label            { font-size:2rem; color:var(--sand); cursor:pointer; transition:color .15s, transform .15s; }
+.star-row input:checked ~ label,
+.star-row label:hover,
+.star-row label:hover ~ label { color:#c9a44a; transform:scale(1.1); }

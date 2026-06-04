@@ -8,7 +8,7 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kontak – Talenta Florist</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/kontak.css" />
 </head>
 <body>
   <div class="petal"></div><div class="petal"></div>
@@ -25,7 +25,7 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
     <div style="display:flex;gap:.75rem;align-items:center;">
       <?php if (!empty($_SESSION['pelanggan_id'])): ?>
         <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Pesanan</a>
+        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
         <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
       <?php else: ?>
         <a class="btn btn-outline btn-sm" href="login.php">Masuk</a>

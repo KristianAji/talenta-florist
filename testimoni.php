@@ -36,7 +36,7 @@ $ulasan_saya = $ulasan_saya->fetchAll();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Beri Ulasan – Talenta Florist</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/testimoni.css" />
 </head>
 <body style="display:flex;flex-direction:column;min-height:100vh;">
   <div class="petal"></div>
@@ -54,7 +54,7 @@ $ulasan_saya = $ulasan_saya->fetchAll();
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
       <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-      <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Pesanan</a>
+      <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
       <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
     </div>
   </nav>

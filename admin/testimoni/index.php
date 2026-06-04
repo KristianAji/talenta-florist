@@ -17,7 +17,7 @@ $list = db()->query('SELECT * FROM testimoni ORDER BY dibuat_pada DESC')->fetchA
   <title>Testimoni – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
-  <link rel="stylesheet" href="<?= base_url('admin/css/produk.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/testimoni.css') ?>" />
 </head>
 <body>
 

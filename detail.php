@@ -77,7 +77,7 @@ $rekomendasi = $rek->fetchAll();
         <span class="nav-user">Admin: <strong><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></strong></span>
       <?php elseif (is_pelanggan()): ?>
         <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Lihat Riwayat Pesanan</a>
+        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
         <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
       <?php else: ?>
         <a class="btn btn-outline btn-sm" href="<?= base_url('login.php') ?>">Masuk</a>

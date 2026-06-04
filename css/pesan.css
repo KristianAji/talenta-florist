@@ -1,0 +1,68 @@
+/* =============================================
+   pesan.css — Halaman Cara Pesan (pesan.php)
+   ============================================= */
+@import url('base.css');
+
+/* ── PESAN SECTION ───────────────────────────── */
+.pesan-section { padding:6rem 5vw; position:relative; }
+
+.steps-bg {
+  background:    var(--deep);
+  color:         var(--cream);
+  border-radius: var(--radius-lg);
+  padding:       4rem 5%;
+  animation:     fadeUp .9s .3s cubic-bezier(.22,1,.36,1) both;
+}
+.steps-bg .section-title { color:var(--cream); }
+.steps-bg .section-desc  { color:rgba(250,246,240,.6); }
+.steps-bg .section-label { color:var(--blush); }
+
+.steps-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:2rem; margin-top:3rem; }
+.step {
+  display:        flex;
+  flex-direction: column;
+  gap:            .75rem;
+  position:       relative;
+  opacity:        0;
+  transform:      translateY(28px);
+  transition:     opacity .6s cubic-bezier(.22,1,.36,1), transform .6s cubic-bezier(.22,1,.36,1);
+}
+.step.show                          { opacity:1; transform:none; }
+.step:not(:last-child)::after       { content:'→'; position:absolute; right:-1.2rem; top:.3rem; color:var(--rose); font-size:1.2rem; opacity:0; transition:opacity .4s; }
+.step.show:not(:last-child)::after  { opacity:1; }
+.step-num   { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--rose); line-height:1; opacity:.6; transition:opacity .3s, transform .3s; }
+.step:hover .step-num  { opacity:1; transform:scale(1.1); }
+.step-title { font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:600; }
+.step-desc  { font-size:.8rem; color:rgba(250,246,240,.55); line-height:1.7; }
+
+/* ── FAQ ─────────────────────────────────────── */
+.faq-section { padding:6rem 5vw; }
+.faq-list    { max-width:700px; margin-top:2rem; }
+.faq-item    { border-bottom:1px solid var(--sand); overflow:hidden; }
+.faq-q {
+  width:           100%;
+  background:      none;
+  border:          none;
+  text-align:      left;
+  padding:         1.2rem 0;
+  font-size:       .95rem;
+  font-family:     'DM Sans', sans-serif;
+  font-weight:     500;
+  cursor:          pointer;
+  color:           var(--text);
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  transition:      color .25s;
+}
+.faq-q:hover { color:var(--rose); }
+.faq-q::after { content:'+'; font-size:1.3rem; color:var(--rose); transition:transform .3s; }
+.faq-item.open .faq-q::after { transform:rotate(45deg); }
+.faq-a { max-height:0; overflow:hidden; font-size:.875rem; color:var(--muted); line-height:1.9; transition:max-height .4s cubic-bezier(.22,1,.36,1), padding .3s; }
+.faq-item.open .faq-a { max-height:300px; padding-bottom:1.2rem; }
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 768px) {
+  .step:not(:last-child)::after { display:none; }
+  .steps-grid { gap:1.5rem; }
+}

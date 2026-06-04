@@ -1,0 +1,75 @@
+/* =============================================
+   login.css — Halaman Login (login.php)
+   ============================================= */
+@import url('base.css');
+
+/* ── AUTH BODY ───────────────────────────────── */
+.auth-body {
+  min-height:      100vh;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  background:      var(--deep);
+  overflow:        hidden;
+}
+
+/* Petal di halaman auth — warna terang di atas bg gelap */
+.auth-body .petal:nth-child(1){ background:var(--rose);  top:-10%; left:10%;  animation-duration:18s; opacity:.1;  }
+.auth-body .petal:nth-child(2){ background:var(--blush); top:5%;   left:80%;  animation-duration:22s; animation-delay:4s; opacity:.09; }
+.auth-body .petal:nth-child(3){ background:var(--rose);  top:30%;  left:92%;  animation-duration:26s; animation-delay:8s; opacity:.08; }
+.auth-body .petal:nth-child(4){ background:var(--blush); top:70%;  left:3%;   animation-duration:20s; animation-delay:2s; opacity:.09; }
+.auth-body .petal:nth-child(5){ background:var(--rose);  top:55%;  left:50%;  animation-duration:24s; animation-delay:6s; opacity:.07; }
+
+.auth-wrap {
+  position:  relative;
+  z-index:   10;
+  width:     100%;
+  max-width: 440px;
+  padding:   1rem;
+  animation: pageIn .65s cubic-bezier(.22,1,.36,1) both;
+}
+.auth-wrap.wide { max-width:480px; }
+
+.auth-card {
+  background:    var(--cream);
+  border-radius: 28px;
+  padding:       3rem 2.8rem 2.5rem;
+  box-shadow:    0 40px 100px rgba(0,0,0,.45);
+}
+.auth-logo {
+  font-family:    'Cormorant Garamond', serif;
+  font-size:      2rem;
+  font-weight:    600;
+  color:          var(--deep);
+  text-align:     center;
+  display:        block;
+  text-decoration:none;
+  margin-bottom:  .3rem;
+  transition:     opacity .25s;
+}
+.auth-logo:hover { opacity:.7; }
+.auth-logo em    { color:var(--rose); font-style:italic; }
+.auth-sub        { text-align:center; font-size:.68rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:2rem; }
+
+.btn-masuk {
+  width:         100%;
+  padding:       1rem;
+  border-radius: var(--radius-full);
+  background:    var(--rose);
+  color:         #fff;
+  font-size:     .85rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  border:        none;
+  cursor:        pointer;
+  font-family:   inherit;
+  margin-top:    .4rem;
+  box-shadow:    0 4px 24px rgba(201,122,106,.4);
+  transition:    background .25s, transform .2s, box-shadow .25s;
+}
+.btn-masuk:hover { background:var(--deep); transform:translateY(-2px); box-shadow:0 8px 32px rgba(61,43,36,.35); }
+
+/* ── RESPONSIVE ──────────────────────────────── */
+@media (max-width: 480px) {
+  .auth-card { padding:2rem 1.5rem; }
+}
