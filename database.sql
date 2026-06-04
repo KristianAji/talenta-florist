@@ -75,6 +75,22 @@ CREATE TABLE IF NOT EXISTS pelanggan (
   alamat      TEXT
 ) ENGINE=InnoDB;
 
+--TABEL PESANAN --
+CREATE TABLE `pesanan` (
+  `id` int(11) NOT NULL,
+  `pelanggan_id` int(11) NOT NULL,
+  `produk_id` int(11) NOT NULL,
+  `variasi_id` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL DEFAULT 1,
+  `total_harga` int(11) NOT NULL DEFAULT 0,
+  `nama_penerima` varchar(150) NOT NULL,
+  `telepon` varchar(20) NOT NULL,
+  `alamat` text NOT NULL,
+  `catatan` text DEFAULT NULL,
+  `status` enum('menunggu','dikonfirmasi','dikirim','selesai','dibatalkan') DEFAULT 'menunggu',
+  `dibuat_pada` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- ============================================================
 -- SEED DATA
 -- ============================================================
