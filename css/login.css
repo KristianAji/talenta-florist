@@ -73,3 +73,30 @@
 @media (max-width: 480px) {
   .auth-card { padding:2rem 1.5rem; }
 }
+
+/* ── MATA PASSWORD ────────────────────────────── */
+.input-eye-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-eye-wrap input {
+  width: 100%;
+  padding-right: 2.8rem !important;
+}
+.eye-btn {
+  position: absolute;
+  right: .75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted, #aaa);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color .2s;
+  line-height: 1;
+}
+.eye-btn:hover { 
+  color: var(--rose, #c06b8a); 
+}
