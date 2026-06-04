@@ -34,10 +34,11 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
     </div>
   </nav>
 
+  <!-- CARA PESAN VIA WHATSAPP -->
   <section class="pesan-section">
     <div class="steps-bg">
       <p class="section-label">Mudah & Cepat</p>
-      <h2 class="section-title">Cara <em>Pemesanan</em></h2>
+      <h2 class="section-title">Pesan via <em>WhatsApp</em></h2>
       <p class="section-desc">Pesan bunga favorit Anda hanya dalam 4 langkah mudah melalui WhatsApp.</p>
       <div class="steps-grid">
         <div class="step">
@@ -60,6 +61,46 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
           <div class="step-title">Terima Bunga</div>
           <div class="step-desc">Bunga diantar ke lokasi Anda atau dapat diambil di kios.</div>
         </div>
+      </div>
+      <div style="margin-top:2rem;">
+        <a class="btn btn-primary" href="https://wa.me/6285233608339" target="_blank">💬 Chat WhatsApp Sekarang</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARA PESAN VIA WEB -->
+  <section class="pesan-section" style="padding-top:0;">
+    <div class="steps-bg steps-bg-light">
+      <p class="section-label">Alternatif Pemesanan</p>
+      <h2 class="section-title">Pesan via <em>Website</em></h2>
+      <p class="section-desc">Kamu juga bisa memesan langsung melalui website tanpa perlu WhatsApp terlebih dahulu.</p>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-title">Daftar / Masuk</div>
+          <div class="step-desc">Buat akun atau login terlebih dahulu untuk bisa memesan.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-title">Pilih Produk</div>
+          <div class="step-desc">Buka katalog, pilih produk dan variasi yang kamu inginkan.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-title">Isi Form Pesanan</div>
+          <div class="step-desc">Isi data penerima, alamat pengiriman, jumlah, dan catatan.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-title">Konfirmasi via WA</div>
+          <div class="step-desc">Setelah pesanan masuk, konfirmasi pembayaran via WhatsApp ke admin.</div>
+        </div>
+      </div>
+      <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
+        <a class="btn btn-primary" href="katalog.php">🌸 Mulai Pesan</a>
+        <?php if (empty($_SESSION['pelanggan_id'])): ?>
+        <a class="btn btn-outline steps-btn-outline" href="daftar.php">Daftar Akun</a>
+        <?php endif; ?>
       </div>
     </div>
   </section>
@@ -86,8 +127,7 @@ require_once __DIR__ . '/includes/auth_pelanggan.php';
   </section>
 
   <footer class="reveal">
-    <p>© <?= date('Y') ?> <strong>Kios Bunga Talenta</strong> · Kota Tomohon, Sulawesi Utara</p>
-    <p style="margin-top:.4rem">Website ini dibuat sebagai bagian dari program digitalisasi UMKM · <a href="https://unsrat.ac.id" target="_blank">Universitas Sam Ratulangi</a></p>
+    <p>&copy; <?= date('Y') ?> <strong>Talenta Florist</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
   </footer>
 
   <script src="js/main.js"></script>

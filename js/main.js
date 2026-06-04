@@ -48,3 +48,31 @@ window.addEventListener('pageshow', (e) => {
     document.body.style.opacity   = '1';
   }
 });
+
+// ── TOGGLE ULASAN PUBLIK (testimoni.php) ──
+function toggleUlasan() {
+  const grid = document.getElementById('publik-grid');
+  const btn  = document.getElementById('toggleBtn');
+  if (!grid || !btn) return;
+
+  const isHidden = grid.style.display === 'none';
+
+  if (isHidden) {
+    grid.style.display = 'grid';
+    btn.classList.add('active');
+    btn.textContent = '✖ Sembunyikan Ulasan';
+    // Trigger animasi ulang
+    grid.querySelectorAll('.publik-card').forEach((c, i) => {
+      c.style.animation = 'none';
+      c.offsetHeight; // reflow
+      c.style.animation = '';
+      c.style.animationDelay = (i * 0.07) + 's';
+    });
+    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    grid.style.display = 'none';
+    btn.classList.remove('active');
+    const total = grid.querySelectorAll('.publik-card').length;
+    btn.textContent = '🌸 Lihat Ulasan (' + total + ')';
+  }
+}

@@ -17,6 +17,17 @@ $list = db()->prepare("
 $list->execute([$_SESSION['pelanggan_id']]);
 $list = $list->fetchAll();
 
+// Ambil semua pesanan_id yang sudah diulas oleh pelanggan ini
+$sudah_diulas = [];
+$ulasan_query = db()->prepare("
+    SELECT pesanan_id FROM testimoni
+    WHERE pelanggan_id = ? AND pesanan_id IS NOT NULL
+");
+$ulasan_query->execute([$_SESSION['pelanggan_id']]);
+foreach ($ulasan_query->fetchAll() as $row) {
+    $sudah_diulas[] = $row['pesanan_id'];
+}
+
 $status_label = [
     'menunggu'     => ['label'=>'Menunggu Konfirmasi', 'color'=>'#c9a44a', 'bg'=>'#faeeda'],
     'dikonfirmasi' => ['label'=>'Dikonfirmasi',         'color'=>'#3b6d11', 'bg'=>'#eaf3de'],
@@ -32,6 +43,42 @@ $status_label = [
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Riwayat Pesanan – Talenta Florist</title>
   <link rel="stylesheet" href="css/riwayat_pesanan.css" />
+  <style>
+    /* Tombol Beri Ulasan */
+    .ulasan-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .5rem 1.15rem;
+      border-radius: 2rem;
+      font-size: .82rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1.5px solid #c06b8a;
+      color: #c06b8a;
+      background: #fff0f5;
+      transition: background .18s, color .18s, transform .15s;
+      cursor: pointer;
+    }
+    .ulasan-btn:hover {
+      background: #c06b8a;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .ulasan-btn.sudah {
+      border-color: #aaa;
+      color: #888;
+      background: #f5f5f5;
+      cursor: default;
+      pointer-events: none;
+    }
+    .order-foot {
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
 <body style="display:flex;flex-direction:column;min-height:100vh;">
 
@@ -65,6 +112,8 @@ $status_label = [
     <?php else: ?>
     <?php foreach ($list as $i => $ps):
       $st = $status_label[$ps['status']] ?? $status_label['menunggu'];
+      $is_selesai   = $ps['status'] === 'selesai';
+      $sudah_review = in_array($ps['id'], $sudah_diulas);
     ?>
     <div class="order-card" style="animation-delay:<?= $i * .08 ?>s;">
       <div class="order-head">
@@ -93,12 +142,26 @@ $status_label = [
         </div>
         <div class="order-total">Rp <?= number_format($ps['total_harga'],0,',','.') ?></div>
       </div>
-      <?php if ($ps['status'] === 'menunggu'): ?>
+
+      <?php if ($ps['status'] === 'menunggu' || $is_selesai): ?>
       <div class="order-foot">
+        <?php if ($ps['status'] === 'menunggu'): ?>
         <a href="https://wa.me/6285233608339?text=<?= urlencode("Halo, saya ingin konfirmasi pesanan #{$ps['id']} atas nama {$_SESSION['pelanggan_nama']}.") ?>"
            target="_blank" class="wa-btn">
           💬 Konfirmasi WA
         </a>
+        <?php endif; ?>
+
+        <?php if ($is_selesai): ?>
+          <?php if ($sudah_review): ?>
+          <span class="ulasan-btn sudah">✅ Sudah Diulas</span>
+          <?php else: ?>
+          <a href="testimoni.php?pesanan_id=<?= $ps['id'] ?>&produk=<?= urlencode($ps['produk_nama']) ?>"
+             class="ulasan-btn">
+            ⭐ Beri Ulasan
+          </a>
+          <?php endif; ?>
+        <?php endif; ?>
       </div>
       <?php endif; ?>
     </div>
@@ -107,7 +170,7 @@ $status_label = [
   </div>
 
   <footer>
-    <p>© <?= date('Y') ?> <strong>Kios Bunga Talenta</strong> · Kota Tomohon, Sulawesi Utara</p>
+    <p>&copy; <?= date('Y') ?> <strong>Talenta Florist</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
   </footer>
 </body>
 </html>

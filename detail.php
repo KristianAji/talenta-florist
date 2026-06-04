@@ -195,7 +195,7 @@ $rekomendasi = $rek->fetchAll();
   <?php endif; ?>
 
   <footer>
-    <p>© <?= date('Y') ?> <strong>Kios Bunga Talenta</strong> · Kota Tomohon, Sulawesi Utara</p>
+    <p>&copy; <?= date('Y') ?> <strong>Talenta Florist</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
   </footer>
 
   <script src="<?= base_url('js/main.js') ?>"></script>

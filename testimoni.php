@@ -2,33 +2,84 @@
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config/db.php';
 
-// Harus login sebagai pelanggan
-if (empty($_SESSION['pelanggan_id'])) {
+// Redirect ke login hanya jika mencoba POST (kirim ulasan)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_SESSION['pelanggan_id'])) {
     header('Location: login.php?ref=' . urlencode($_SERVER['REQUEST_URI']));
     exit;
+}
+
+$is_login = !empty($_SESSION['pelanggan_id']);
+
+// Ambil pesanan_id dari query string (jika datang dari riwayat pesanan)
+$pesanan_id   = isset($_GET['pesanan_id']) ? (int)$_GET['pesanan_id'] : null;
+$produk_hint  = isset($_GET['produk'])     ? trim($_GET['produk'])     : '';
+
+// Validasi: pesanan harus milik pelanggan ini dan statusnya selesai
+if ($pesanan_id) {
+    $cek = db()->prepare("
+        SELECT ps.id, p.nama AS produk_nama FROM pesanan ps
+        JOIN produk p ON p.id = ps.produk_id
+        WHERE ps.id = ? AND ps.pelanggan_id = ? AND ps.status = 'selesai'
+    ");
+    $cek->execute([$pesanan_id, $_SESSION['pelanggan_id']]);
+    $pesanan_ref = $cek->fetch();
+    if (!$pesanan_ref) $pesanan_id = null; // reset jika tidak valid
 }
 
 $success = '';
 $error   = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama   = trim($_POST['nama']  ?? '');
-    $pesan  = trim($_POST['pesan'] ?? '');
-    $rating = min(5, max(1, (int)($_POST['rating'] ?? 5)));
+    $nama       = trim($_POST['nama']       ?? '');
+    $pesan      = trim($_POST['pesan']      ?? '');
+    $rating     = min(5, max(1, (int)($_POST['rating'] ?? 5)));
+    $pid        = isset($_POST['pesanan_id']) ? (int)$_POST['pesanan_id'] : null;
 
     if (!$nama || !$pesan) {
         $error = 'Nama dan pesan wajib diisi.';
     } else {
-        db()->prepare('INSERT INTO testimoni (nama, pesan, rating, aktif) VALUES (?,?,?,0)')
-           ->execute([$nama, $pesan, $rating]);
-        $success = 'Terima kasih! Ulasan kamu sedang menunggu persetujuan admin.';
+        // Cek duplikat ulasan untuk pesanan yang sama
+        if ($pid) {
+            $duplikat = db()->prepare("SELECT id FROM testimoni WHERE pelanggan_id = ? AND pesanan_id = ?");
+            $duplikat->execute([$_SESSION['pelanggan_id'], $pid]);
+            if ($duplikat->fetch()) {
+                $error = 'Kamu sudah memberikan ulasan untuk pesanan ini.';
+            }
+        }
+
+        if (!$error) {
+            db()->prepare('
+                INSERT INTO testimoni (nama, pesan, rating, aktif, pelanggan_id, pesanan_id)
+                VALUES (?,?,?,0,?,?)
+            ')->execute([$nama, $pesan, $rating, $_SESSION['pelanggan_id'], $pid ?: null]);
+            $success = 'Terima kasih! Ulasan kamu sedang menunggu persetujuan admin.';
+        }
     }
 }
 
 // Ambil semua ulasan milik pelanggan ini
-$ulasan_saya = db()->prepare("SELECT * FROM testimoni WHERE nama = ? ORDER BY id DESC");
-$ulasan_saya->execute([$_SESSION['pelanggan_nama']]);
-$ulasan_saya = $ulasan_saya->fetchAll();
+$ulasan_saya = [];
+if ($is_login) {
+    $q = db()->prepare("SELECT * FROM testimoni WHERE pelanggan_id = ? ORDER BY testimoni.id DESC");
+    $q->execute([$_SESSION['pelanggan_id']]);
+    $ulasan_saya = $q->fetchAll();
+}
+
+// Ambil semua ulasan publik yang sudah disetujui admin (selain milik sendiri)
+$param_publik = [];
+$extra_where  = '';
+if ($is_login) {
+    $extra_where  = 'AND (t.pelanggan_id IS NULL OR t.pelanggan_id != ?)';
+    $param_publik = [$_SESSION['pelanggan_id']];
+}
+$ulasan_publik = db()->prepare("
+    SELECT t.id, t.nama, t.pesan, t.rating
+    FROM testimoni t
+    WHERE t.aktif = 1 $extra_where
+    ORDER BY t.id DESC
+");
+$ulasan_publik->execute($param_publik);
+$ulasan_publik = $ulasan_publik->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -53,9 +104,13 @@ $ulasan_saya = $ulasan_saya->fetchAll();
       <li><a href="testimoni.php" class="active">Ulasan</a></li>
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
+      <?php if ($is_login): ?>
       <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
       <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
       <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
+      <?php else: ?>
+      <a class="btn btn-outline btn-sm" href="login.php">Masuk</a>
+      <?php endif; ?>
     </div>
   </nav>
 
@@ -63,8 +118,18 @@ $ulasan_saya = $ulasan_saya->fetchAll();
     <div class="card" style="max-width:560px;">
       <p class="card-eyebrow">Bagikan Pengalamanmu</p>
       <h1 class="card-title">Tulis <em>Ulasan</em></h1>
-      <p class="card-sub">Ulasanmu sangat berarti bagi kami dan membantu pelanggan lain dalam memilih produk terbaik.</p>
 
+      <?php if ($pesanan_id && !empty($pesanan_ref)): ?>
+      <!-- Konteks pesanan yang akan diulas -->
+      <div style="background:#fff8f0;border:1.5px solid #f0d5b0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.85rem;color:#7a4a1a;display:flex;align-items:center;gap:.6rem;">
+        🛍️ Mengulas pesanan <strong>#<?= $pesanan_id ?></strong>
+        <?php if ($produk_hint): ?> — <?= htmlspecialchars($produk_hint) ?><?php endif; ?>
+      </div>
+      <?php else: ?>
+      <p class="card-sub">Ulasanmu sangat berarti bagi kami dan membantu pelanggan lain dalam memilih produk terbaik.</p>
+      <?php endif; ?>
+
+      <?php if ($is_login): ?>
       <div class="user-info">
         <div class="user-avatar"><?= mb_strtoupper(mb_substr($_SESSION['pelanggan_nama'], 0, 1)) ?></div>
         <div>
@@ -72,6 +137,11 @@ $ulasan_saya = $ulasan_saya->fetchAll();
           <div class="user-sub">Menulis sebagai pelanggan terdaftar</div>
         </div>
       </div>
+      <?php else: ?>
+      <div style="background:#fff8f0;border:1.5px solid #f0d5b0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.85rem;color:#7a4a1a;text-align:center;">
+        <a href="login.php?ref=testimoni.php" style="color:#c06b8a;font-weight:600;text-decoration:none;">Masuk</a> untuk menulis ulasan
+      </div>
+      <?php endif; ?>
 
       <?php if (!empty($error)): ?>
       <div class="alert alert-error">&#9888; <?= htmlspecialchars($error) ?></div>
@@ -83,6 +153,11 @@ $ulasan_saya = $ulasan_saya->fetchAll();
 
       <?php if (empty($success)): ?>
       <form method="POST">
+        <!-- Simpan pesanan_id sebagai hidden field -->
+        <?php if ($pesanan_id): ?>
+        <input type="hidden" name="pesanan_id" value="<?= $pesanan_id ?>" />
+        <?php endif; ?>
+
         <div class="form-group">
           <label>Nama yang Ditampilkan *</label>
           <input type="text" name="nama"
@@ -111,7 +186,11 @@ $ulasan_saya = $ulasan_saya->fetchAll();
       <?php endif; ?>
 
       <div style="text-align:center;margin-top:1.5rem;font-size:.82rem;color:var(--muted);">
+        <?php if ($pesanan_id): ?>
+        <a href="riwayat_pesanan.php" style="color:var(--rose);text-decoration:none;">&larr; Kembali ke Riwayat Pesanan</a>
+        <?php else: ?>
         <a href="katalog.php" style="color:var(--rose);text-decoration:none;">&larr; Kembali ke Katalog</a>
+        <?php endif; ?>
       </div>
     </div>
 
@@ -130,6 +209,9 @@ $ulasan_saya = $ulasan_saya->fetchAll();
             <span class="badge-pending">&#9203; Menunggu Persetujuan</span>
           <?php endif; ?>
         </div>
+        <?php if (!empty($u['pesanan_id'])): ?>
+        <div style="font-size:.75rem;color:#999;margin-bottom:.3rem;">Pesanan #<?= $u['pesanan_id'] ?></div>
+        <?php endif; ?>
         <p class="riwayat-pesan"><?= htmlspecialchars($u['pesan']) ?></p>
       </div>
       <?php endforeach; ?>
@@ -137,8 +219,45 @@ $ulasan_saya = $ulasan_saya->fetchAll();
     <?php endif; ?>
   </div>
 
+  <hr class="section-divider" />
+  <!-- ===== SECTION: ULASAN PUBLIK ===== -->
+  <div class="publik-section">
+    <div class="publik-header">
+      <div>
+        <p class="page-eyebrow">Dari Pelanggan Kami</p>
+        <h2 class="publik-title">Apa Kata <em>Mereka?</em></h2>
+      </div>
+      <?php if (!empty($ulasan_publik)): ?>
+      <button class="toggle-ulasan-btn" id="toggleBtn" onclick="toggleUlasan()">
+        🌸 Lihat Ulasan (<?= count($ulasan_publik) ?>)
+      </button>
+      <?php endif; ?>
+    </div>
+
+    <?php if (empty($ulasan_publik)): ?>
+    <p style="text-align:center;color:#aaa;font-size:.9rem;padding:2rem 0;">Belum ada ulasan publik saat ini.</p>
+    <?php else: ?>
+    <div class="publik-grid" id="publik-grid" style="display:none;">
+      <?php foreach ($ulasan_publik as $j => $u): ?>
+      <div class="publik-card" style="animation-delay:<?= $j * .07 ?>s;">
+        <div class="publik-card-top">
+          <div class="publik-avatar"><?= mb_strtoupper(mb_substr($u['nama'], 0, 1)) ?></div>
+          <div>
+            <div class="publik-nama"><?= htmlspecialchars($u['nama']) ?></div>
+            <div class="publik-stars">
+              <?php for ($i = 1; $i <= 5; $i++) echo $i <= $u['rating'] ? '★' : '☆'; ?>
+            </div>
+          </div>
+        </div>
+        <p class="publik-pesan">"<?= htmlspecialchars($u['pesan']) ?>"</p>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+  </div>
+
   <footer>
-    <p>&copy; <?= date('Y') ?> <strong>Kios Bunga Talenta</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
+    <p>&copy; <?= date('Y') ?> <strong>Talenta Florist</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
   </footer>
 
   <script src="js/main.js"></script>
