@@ -202,7 +202,8 @@ INSERT INTO testimoni (nama, pesan, rating) VALUES
   ('Sandra K.','Customer service responsif, bunga fresh, dan harga terjangkau. Akan pesan lagi!',5);
 
 -- Anggota Kelompok (isi sesuai kelompok Anda)
-INSERT INTO anggota (nama, nim, peran, urutan) VALUES
-  ('Nama Anggota 1','123456789','Ketua Kelompok',1),
-  ('Nama Anggota 2','123456790','Anggota',2),
-  ('Nama Anggota 3','123456791','Anggota',3);
+INSERT INTO anggota (id, nama, nim, peran, foto, urutan) VALUES
+(1, 'Jeremy Jehuda Paskah Sompie', '240211060006', 'Anggota', NULL, 1),
+(2, 'Delon Christiano Poluakan', '240211060020', 'Anggota', NULL, 2),
+(3, 'Noveria Mumek', '240211060024', 'Anggota', NULL, 3),
+(4, 'Kristian Aji Suseno', '240211060070', 'Anggota', NULL, 4);
