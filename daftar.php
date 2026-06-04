@@ -12,8 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telepon  = trim($_POST['telepon']  ?? '');
     $alamat   = trim($_POST['alamat']   ?? '');
 
-    if (empty($nama) || empty($username) || empty($email) || empty($password)) {
+    $telepon_len = strlen(preg_replace('/[^0-9]/', '', $telepon));
+    if (empty($nama) || empty($username) || empty($email) || empty($password) || empty($telepon)) {
         $error = 'Field bertanda bintang (*) wajib diisi!';
+    } elseif ($telepon_len < 11 || $telepon_len > 17) {
+        $error = 'Nomor telepon harus antara 11–17 digit angka.';
     } else {
         try {
             $stmtCek = db()->prepare("SELECT id FROM pelanggan WHERE username = ? OR email = ? LIMIT 1");
@@ -127,8 +130,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" />
         </div>
         <div class="form-group">
-          <label>No. Telepon / WhatsApp</label>
-          <input type="text" name="telepon" placeholder="cth: 08123456789"
+          <label>No. Telepon / WhatsApp *</label>
+          <input type="text" name="telepon" id="telepon"
+                 placeholder="cth: 08123456789 (min. 11 digit)"
+                 minlength="11" maxlength="17" required
                  value="<?= htmlspecialchars($_POST['telepon'] ?? '') ?>" />
         </div>
         <div class="form-group">
@@ -149,10 +154,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <script>
     function validasiForm() {
-      const pw = document.getElementById('password').value;
-      const un = document.getElementById('username').value;
-      if (pw.length < 6)        { alert('Password harus minimal 6 karakter!'); return false; }
-      if (un.includes(' '))     { alert('Username tidak boleh menggunakan spasi!'); return false; }
+      const pw  = document.getElementById('password').value;
+      const un  = document.getElementById('username').value;
+      const tel = document.getElementById('telepon').value.trim();
+      if (pw.length < 6)           { alert('Password harus minimal 6 karakter!'); return false; }
+      if (un.includes(' '))        { alert('Username tidak boleh menggunakan spasi!'); return false; }
+      if (!/^[0-9+\-\s]+$/.test(tel)) { alert('Nomor telepon hanya boleh berisi angka!'); return false; }
+      if (tel.length < 11)         { alert('Nomor telepon minimal 11 digit!'); return false; }
+      if (tel.length > 17)         { alert('Nomor telepon maksimal 17 digit!'); return false; }
       return true;
     }
 
