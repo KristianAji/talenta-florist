@@ -15,6 +15,7 @@ $testimoni     = db()->query('SELECT * FROM testimoni WHERE aktif=1 ORDER BY dib
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Talenta Florist – Kota Tomohon</title>
   <link rel="stylesheet" href="<?= base_url('css/index.css') ?>" />
+  <script>window.BASE_URL = '<?= base_url('') ?>';</script>
 </head>
 <body>
   <?php if (is_admin_browsing()): ?>
@@ -43,7 +44,11 @@ $testimoni     = db()->query('SELECT * FROM testimoni WHERE aktif=1 ORDER BY dib
           <span class="nav-user">Admin: <strong><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></strong></span>
         <?php elseif (is_pelanggan()): ?>
           <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-          <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
+          <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
+          <a class="btn btn-outline btn-sm" href="<?= base_url('notifikasi.php') ?>" style="position:relative">
+          🔔
+          <span id="notif-badge" class="notif-badge-nav" style="display:none">0</span>
+          </a>
           <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
         <?php else: ?>
           <a class="btn btn-outline btn-sm" href="<?= base_url('login.php') ?>">Masuk</a>
@@ -101,5 +106,6 @@ $testimoni     = db()->query('SELECT * FROM testimoni WHERE aktif=1 ORDER BY dib
   </footer>
 
   <script src="<?= base_url('js/main.js') ?>"></script>
+  <script src="<?= base_url('js/notif-pelanggan.js') ?>"></script>
 </body>
 </html>

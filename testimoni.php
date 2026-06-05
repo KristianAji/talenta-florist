@@ -1,6 +1,8 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/config/base_path.php';
+require_once __DIR__ . '/includes/auth_pelanggan.php';
 
 // Redirect ke login hanya jika mencoba POST (kirim ulasan)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_SESSION['pelanggan_id'])) {
@@ -23,22 +25,21 @@ if ($pesanan_id) {
     ");
     $cek->execute([$pesanan_id, $_SESSION['pelanggan_id']]);
     $pesanan_ref = $cek->fetch();
-    if (!$pesanan_ref) $pesanan_id = null; // reset jika tidak valid
+    if (!$pesanan_ref) $pesanan_id = null;
 }
 
 $success = '';
 $error   = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama       = trim($_POST['nama']       ?? '');
-    $pesan      = trim($_POST['pesan']      ?? '');
-    $rating     = min(5, max(1, (int)($_POST['rating'] ?? 5)));
-    $pid        = isset($_POST['pesanan_id']) ? (int)$_POST['pesanan_id'] : null;
+    $nama   = trim($_POST['nama']   ?? '');
+    $pesan  = trim($_POST['pesan']  ?? '');
+    $rating = min(5, max(1, (int)($_POST['rating'] ?? 5)));
+    $pid    = isset($_POST['pesanan_id']) ? (int)$_POST['pesanan_id'] : null;
 
     if (!$nama || !$pesan) {
         $error = 'Nama dan pesan wajib diisi.';
     } else {
-        // Cek duplikat ulasan untuk pesanan yang sama
         if ($pid) {
             $duplikat = db()->prepare("SELECT id FROM testimoni WHERE pelanggan_id = ? AND pesanan_id = ?");
             $duplikat->execute([$_SESSION['pelanggan_id'], $pid]);
@@ -87,7 +88,8 @@ $ulasan_publik = $ulasan_publik->fetchAll();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Beri Ulasan – Talenta Florist</title>
-  <link rel="stylesheet" href="css/testimoni.css" />
+  <link rel="stylesheet" href="<?= base_url('css/testimoni.css') ?>" />
+  <script>window.BASE_URL = '<?= base_url('') ?>';</script>
 </head>
 <body style="display:flex;flex-direction:column;min-height:100vh;">
   <div class="petal"></div>
@@ -95,21 +97,27 @@ $ulasan_publik = $ulasan_publik->fetchAll();
   <div class="petal"></div>
 
   <nav>
-    <a class="logo" href="index.php">Talenta <span>Florist</span></a>
+    <a class="logo" href="<?= base_url('index.php') ?>">Talenta <span>Florist</span></a>
     <ul class="nav-links">
-      <li><a href="tentang.php">Tentang</a></li>
-      <li><a href="katalog.php">Katalog</a></li>
-      <li><a href="pesan.php">Cara Pesan</a></li>
-      <li><a href="kontak.php">Kontak</a></li>
-      <li><a href="testimoni.php" class="active">Ulasan</a></li>
+      <li><a href="<?= base_url('tentang.php') ?>">Tentang</a></li>
+      <li><a href="<?= base_url('katalog.php') ?>">Katalog</a></li>
+      <li><a href="<?= base_url('pesan.php') ?>">Cara Pesan</a></li>
+      <li><a href="<?= base_url('kontak.php') ?>">Kontak</a></li>
+      <li><a href="<?= base_url('testimoni.php') ?>" class="active">Ulasan</a></li>
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
-      <?php if ($is_login): ?>
-      <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-      <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
-      <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
+      <?php if (is_admin_browsing()): ?>
+        <span class="nav-user">Admin: <strong><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></strong></span>
+      <?php elseif ($is_login): ?>
+        <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('riwayat_pesanan.php') ?>">📋 Riwayat Pesanan</a>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('notifikasi.php') ?>" style="position:relative;">
+          🔔
+          <span id="notif-badge" class="notif-badge-nav" style="display:none;">0</span>
+        </a>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
       <?php else: ?>
-      <a class="btn btn-outline btn-sm" href="login.php">Masuk</a>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('login.php') ?>">Masuk</a>
       <?php endif; ?>
     </div>
   </nav>
@@ -120,7 +128,6 @@ $ulasan_publik = $ulasan_publik->fetchAll();
       <h1 class="card-title">Tulis <em>Ulasan</em></h1>
 
       <?php if ($pesanan_id && !empty($pesanan_ref)): ?>
-      <!-- Konteks pesanan yang akan diulas -->
       <div style="background:#fff8f0;border:1.5px solid #f0d5b0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.85rem;color:#7a4a1a;display:flex;align-items:center;gap:.6rem;">
         🛍️ Mengulas pesanan <strong>#<?= $pesanan_id ?></strong>
         <?php if ($produk_hint): ?> — <?= htmlspecialchars($produk_hint) ?><?php endif; ?>
@@ -139,7 +146,7 @@ $ulasan_publik = $ulasan_publik->fetchAll();
       </div>
       <?php else: ?>
       <div style="background:#fff8f0;border:1.5px solid #f0d5b0;border-radius:.75rem;padding:.75rem 1rem;margin-bottom:1.25rem;font-size:.85rem;color:#7a4a1a;text-align:center;">
-        <a href="login.php?ref=testimoni.php" style="color:#c06b8a;font-weight:600;text-decoration:none;">Masuk</a> untuk menulis ulasan
+        <a href="<?= base_url('login.php') ?>?ref=testimoni.php" style="color:#c06b8a;font-weight:600;text-decoration:none;">Masuk</a> untuk menulis ulasan
       </div>
       <?php endif; ?>
 
@@ -153,7 +160,6 @@ $ulasan_publik = $ulasan_publik->fetchAll();
 
       <?php if (empty($success)): ?>
       <form method="POST">
-        <!-- Simpan pesanan_id sebagai hidden field -->
         <?php if ($pesanan_id): ?>
         <input type="hidden" name="pesanan_id" value="<?= $pesanan_id ?>" />
         <?php endif; ?>
@@ -187,9 +193,9 @@ $ulasan_publik = $ulasan_publik->fetchAll();
 
       <div style="text-align:center;margin-top:1.5rem;font-size:.82rem;color:var(--muted);">
         <?php if ($pesanan_id): ?>
-        <a href="riwayat_pesanan.php" style="color:var(--rose);text-decoration:none;">&larr; Kembali ke Riwayat Pesanan</a>
+        <a href="<?= base_url('riwayat_pesanan.php') ?>" style="color:var(--rose);text-decoration:none;">&larr; Kembali ke Riwayat Pesanan</a>
         <?php else: ?>
-        <a href="katalog.php" style="color:var(--rose);text-decoration:none;">&larr; Kembali ke Katalog</a>
+        <a href="<?= base_url('katalog.php') ?>" style="color:var(--rose);text-decoration:none;">&larr; Kembali ke Katalog</a>
         <?php endif; ?>
       </div>
     </div>
@@ -220,7 +226,7 @@ $ulasan_publik = $ulasan_publik->fetchAll();
   </div>
 
   <hr class="section-divider" />
-  <!-- ===== SECTION: ULASAN PUBLIK ===== -->
+
   <div class="publik-section">
     <div class="publik-header">
       <div>
@@ -260,6 +266,7 @@ $ulasan_publik = $ulasan_publik->fetchAll();
     <p>&copy; <?= date('Y') ?> <strong>Talenta Florist</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="<?= base_url('js/main.js') ?>"></script>
+  <script src="<?= base_url('js/notif-pelanggan.js') ?>"></script>
 </body>
 </html>

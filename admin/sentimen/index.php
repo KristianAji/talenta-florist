@@ -4,11 +4,9 @@ require_once __DIR__ . '/../../config/db.php';
 
 $active_menu = 'sentimen';
 
-// Ambil semua testimoni
 $list = db()->query('SELECT * FROM testimoni ORDER BY dibuat_pada DESC')->fetchAll();
 
 // ── NAIVE BAYES SENTIMENT ANALYSIS (PHP Murni) ──
-
 $kata_positif = [
     'cantik','bagus','indah','segar','memuaskan','puas','senang','baik','ramah',
     'cepat','tepat','recommended','rekomen','luar biasa','keren','mantap','istimewa',
@@ -16,7 +14,6 @@ $kata_positif = [
     'profesional','rapi','bersih','wangi','elegan','mewah','sempurna','hebat',
     'terima kasih','highly','pesan','lagi','worth','berkualitas','detail'
 ];
-
 $kata_negatif = [
     'jelek','buruk','kecewa','lambat','telat','rusak','layu','busuk','mahal',
     'mengecewakan','tidak bagus','tidak puas','tidak sesuai','salah','lama',
@@ -25,36 +22,24 @@ $kata_negatif = [
 
 function hitungSentimen($pesan, $rating, $kata_positif, $kata_negatif) {
     $pesan_lower = mb_strtolower($pesan);
-    $skor_pos = 0;
-    $skor_neg = 0;
-
-    foreach ($kata_positif as $kata) {
-        if (mb_strpos($pesan_lower, $kata) !== false) $skor_pos++;
-    }
-    foreach ($kata_negatif as $kata) {
-        if (mb_strpos($pesan_lower, $kata) !== false) $skor_neg++;
-    }
-
+    $skor_pos = 0; $skor_neg = 0;
+    foreach ($kata_positif as $kata) if (mb_strpos($pesan_lower, $kata) !== false) $skor_pos++;
+    foreach ($kata_negatif as $kata) if (mb_strpos($pesan_lower, $kata) !== false) $skor_neg++;
     if ($rating >= 4)     $skor_pos += 2;
     elseif ($rating <= 2) $skor_neg += 2;
     else                  $skor_pos += 1;
-
     if ($skor_pos > $skor_neg) return 'positif';
     if ($skor_neg > $skor_pos) return 'negatif';
     return 'netral';
 }
 
-$hasil       = [];
-$jml_positif = 0;
-$jml_netral  = 0;
-$jml_negatif = 0;
-
+$hasil = []; $jml_positif = 0; $jml_netral = 0; $jml_negatif = 0;
 foreach ($list as $t) {
     $sentimen = hitungSentimen($t['pesan'], $t['rating'], $kata_positif, $kata_negatif);
     $hasil[]  = array_merge($t, ['sentimen' => $sentimen]);
-    if ($sentimen === 'positif')      $jml_positif++;
-    elseif ($sentimen === 'negatif')  $jml_negatif++;
-    else                              $jml_netral++;
+    if ($sentimen === 'positif')     $jml_positif++;
+    elseif ($sentimen === 'negatif') $jml_negatif++;
+    else                             $jml_netral++;
 }
 
 $total   = count($list);
@@ -201,7 +186,9 @@ foreach ($list as $t) $rating_dist[(int)$t['rating']]++;
     <!-- ── TABEL DETAIL ── -->
     <div class="panel">
       <div class="panel-title">Detail Klasifikasi Testimoni</div>
-      <div class="tbl-wrap tbl-sentimen">
+
+      <!-- Desktop: tabel -->
+      <div class="tbl-desktop tbl-wrap tbl-sentimen">
         <table>
           <thead>
             <tr>
@@ -214,9 +201,7 @@ foreach ($list as $t) $rating_dist[(int)$t['rating']]++;
           </thead>
           <tbody>
             <?php if (empty($hasil)): ?>
-            <tr>
-              <td colspan="5" style="text-align:center;padding:2rem;color:var(--muted);">Belum ada testimoni.</td>
-            </tr>
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--muted);">Belum ada testimoni.</td></tr>
             <?php else: foreach ($hasil as $h): ?>
             <tr>
               <td class="td-nama"><?= htmlspecialchars($h['nama']) ?></td>
@@ -237,6 +222,32 @@ foreach ($list as $t) $rating_dist[(int)$t['rating']]++;
           </tbody>
         </table>
       </div>
+
+      <!-- Mobile: kartu -->
+      <div class="tbl-mobile">
+        <?php if (empty($hasil)): ?>
+        <div style="text-align:center;padding:2rem;color:var(--muted);">Belum ada testimoni.</div>
+        <?php else: foreach ($hasil as $h): ?>
+        <div class="sent-mobile-card">
+          <div class="sent-mobile-card-top">
+            <span class="sent-mobile-card-nama"><?= htmlspecialchars($h['nama']) ?></span>
+            <span class="sent-mobile-card-tanggal"><?= date('d M Y', strtotime($h['dibuat_pada'])) ?></span>
+          </div>
+          <div class="sent-mobile-card-rating"><?= str_repeat('★', (int)$h['rating']) ?><?= str_repeat('☆', 5 - (int)$h['rating']) ?></div>
+          <div class="sent-mobile-card-pesan"><?= htmlspecialchars($h['pesan']) ?></div>
+          <div class="sent-mobile-card-footer">
+            <?php if ($h['sentimen'] === 'positif'): ?>
+            <span class="badge-pos">😊 Positif</span>
+            <?php elseif ($h['sentimen'] === 'negatif'): ?>
+            <span class="badge-neg">😞 Negatif</span>
+            <?php else: ?>
+            <span class="badge-net">😐 Netral</span>
+            <?php endif; ?>
+          </div>
+        </div>
+        <?php endforeach; endif; ?>
+      </div>
+
     </div>
 
   </div>

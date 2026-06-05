@@ -6,7 +6,7 @@
 /* ── KARTU RINGKASAN SENTIMEN ── */
 .sent-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
   margin-bottom: 2rem;
 }
@@ -159,11 +159,100 @@
   color: var(--muted);
 }
 
-/* ── MOBILE ── */
-@media (max-width: 900px) {
-  .sent-cards { grid-template-columns: 1fr; }
-  .grid-2     { grid-template-columns: 1fr; }
+/* ── TOGGLE TABEL vs KARTU ── */
+.tbl-desktop { display: block; }
+.tbl-mobile  { display: none; }
+
+/* ── KARTU DETAIL SENTIMEN MOBILE ── */
+.sent-mobile-card {
+  background: var(--cream);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 2px 12px rgba(61,43,36,.06);
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
 }
+.sent-mobile-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+}
+.sent-mobile-card-nama {
+  font-weight: 500;
+  font-size: .88rem;
+  color: var(--deep);
+}
+.sent-mobile-card-tanggal {
+  font-size: .68rem;
+  color: var(--muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sent-mobile-card-rating {
+  color: #c9a44a;
+  font-size: .8rem;
+}
+.sent-mobile-card-pesan {
+  font-size: .82rem;
+  color: var(--text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+.sent-mobile-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: .2rem;
+}
+
+/* ── RESPONSIVE DESKTOP MEDIUM ── */
+@media (max-width: 1100px) {
+  .donut-wrap { gap: 1.5rem; }
+  .bar-label  { width: 60px; }
+}
+
+/* ── TABLET ── */
+@media (max-width: 900px) {
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ── MOBILE ── */
 @media (max-width: 768px) {
-  .sent-cards { grid-template-columns: repeat(3, 1fr); }
+  /* Stat cards: 3 kolom tetap, lebih kompak */
+  .sent-cards {
+    gap: .6rem;
+    margin-bottom: 1.25rem;
+  }
+  .sent-card  { padding: .9rem .65rem; }
+  .sent-icon  { font-size: 1.35rem; margin-bottom: .2rem; }
+  .sent-num   { font-size: 1.8rem; }
+  .sent-label { font-size: .56rem; }
+  .sent-pct   { font-size: .66rem; }
+
+  /* Chart wrap */
+  .chart-wrap { padding: 1rem; margin-bottom: 1rem; }
+
+  /* Donut: tengah + stack */
+  .donut-wrap {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  .donut-legend { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: .5rem .75rem; }
+
+  /* Bar chart label lebih kecil */
+  .bar-label { width: 52px; font-size: .72rem; }
+  .bar-val   { width: 28px; font-size: .72rem; }
+
+  /* Panel */
+  .panel { padding: 1rem; }
+
+  /* Sembunyikan tabel, tampilkan kartu */
+  .tbl-desktop { display: none !important; }
+  .tbl-mobile  { display: flex !important; flex-direction: column; gap: .75rem; }
 }

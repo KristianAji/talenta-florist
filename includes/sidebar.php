@@ -11,15 +11,16 @@ if (!defined('BASE_PATH')) {
 }
 
 $menus = [
-    ['slug' => 'dashboard',  'icon' => '◈',  'label' => 'Dashboard',  'href' => base_url('admin/dashboard.php')],
+    ['slug' => 'dashboard',  'icon' => '🏠',  'label' => 'Dashboard',  'href' => base_url('admin/dashboard.php')],
     ['slug' => 'produk',     'icon' => '🌸', 'label' => 'Produk',     'href' => base_url('admin/produk/index.php')],
     ['slug' => 'kategori',   'icon' => '🏷', 'label' => 'Kategori',   'href' => base_url('admin/kategori/index.php')],
     ['slug' => 'testimoni',  'icon' => '⭐', 'label' => 'Testimoni',  'href' => base_url('admin/testimoni/index.php')],
     ['slug' => 'pelanggan',  'icon' => '👥', 'label' => 'Pelanggan',  'href' => base_url('admin/pelanggan/index.php')],
     ['slug' => 'pesanan',    'icon' => '📦', 'label' => 'Pesanan',    'href' => base_url('admin/pesanan/index.php')],
+    ['slug' => 'notifikasi', 'icon' => '🔔', 'label' => 'Notifikasi', 'href' => base_url('admin/notifikasi.php')],
     ['slug' => 'sentimen',   'icon' => '🧠', 'label' => 'Sentimen',   'href' => base_url('admin/sentimen/index.php')],
     ['slug' => 'laporan',    'icon' => '📊', 'label' => 'Laporan',    'href' => base_url('admin/laporan/index.php')],
-    ['slug' => 'pengaturan', 'icon' => '⚙',  'label' => 'Pengaturan', 'href' => base_url('admin/pengaturan.php')],
+    ['slug' => 'pengaturan', 'icon' => '⚙️',  'label' => 'Pengaturan', 'href' => base_url('admin/pengaturan.php')],
 ];
 ?>
 <aside id="admin-sidebar">

@@ -1,6 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/config/base_path.php';
+require_once __DIR__ . '/includes/auth_pelanggan.php';
+require_once __DIR__ . '/includes/notifikasi.php'; // ← TAMBAHAN
 
 if (!empty($_SESSION['admin_id']))    { header('Location: admin/dashboard.php'); exit; }
 if (empty($_SESSION['pelanggan_id'])){ header('Location: login.php?ref='.urlencode($_SERVER['REQUEST_URI'])); exit; }
@@ -50,6 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
            ->execute([$_SESSION['pelanggan_id'],$produk_id,$var_id,$jumlah,$total,$nama_penerima,$telepon,$alamat,$catatan]);
         $success    = true;
         $pesanan_id = db()->lastInsertId();
+
+        // ── NOTIFIKASI: Beritahu admin ada pesanan baru ──
+        kirim_notif(
+            'admin',
+            '🌸 Pesanan baru dari ' . $_SESSION['pelanggan_nama'] .
+            ' — ' . $produk['nama'] . ' (' . $var_dipilih['nama'] . ')' .
+            ' x' . $jumlah . ' | #' . $pesanan_id,
+            'admin/pesanan/index.php'
+        );
     }
 }
 ?>
@@ -60,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pesan – <?= htmlspecialchars($produk['nama']) ?></title>
   <link rel="stylesheet" href="css/pesan_produk.css" />
+  <script>window.BASE_URL = '<?= base_url('') ?>';</script>
 </head>
 <body style="display:flex;flex-direction:column;min-height:100vh;">
   <div class="petal"></div><div class="petal"></div>
@@ -75,6 +88,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
       <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
+      <a class="btn btn-outline btn-sm" href="<?= base_url('riwayat_pesanan.php') ?>">📋 Riwayat Pesanan</a>
+      <a class="btn btn-outline btn-sm" href="<?= base_url('notifikasi.php') ?>" style="position:relative">
+        🔔
+        <span id="notif-badge" class="notif-badge-nav" style="display:none">0</span>
+      </a>
       <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
     </div>
   </nav>
@@ -180,5 +198,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <script src="js/main.js"></script>
   <script src="js/pesan_produk.js"></script>
+  <script src="<?= base_url('js/notif-pelanggan.js') ?>"></script>
 </body>
 </html>

@@ -39,7 +39,7 @@ $total = db()->query('SELECT COUNT(*) FROM pelanggan')->fetchColumn();
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manajemen Pelanggan – Admin</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="<?= base_url('admin/admin.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('admin/css/admin-shared.css') ?>" />
   <link rel="stylesheet" href="<?= base_url('admin/css/pelanggan.css') ?>" />
 </head>
 <body>
@@ -84,60 +84,109 @@ $total = db()->query('SELECT COUNT(*) FROM pelanggan')->fetchColumn();
       </form>
     </div>
 
-    <!-- Tabel Pelanggan -->
+    <!-- Panel -->
     <div class="panel">
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Pelanggan</th>
-              <th>Email</th>
-              <th>Telepon</th>
-              <th>Alamat</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if (empty($list)): ?>
-            <tr>
-              <td colspan="6" class="tbl-empty-lg">
-                <?= $search ? 'Tidak ada pelanggan yang cocok dengan pencarian.' : 'Belum ada pelanggan yang mendaftar.' ?>
-              </td>
-            </tr>
-            <?php else: foreach ($list as $p): ?>
-            <tr>
-              <td class="col-id">#<?= $p['id'] ?></td>
-              <td>
-                <div class="pelanggan-nama">
-                  <div class="avatar"><?= mb_strtoupper(mb_substr($p['nama'], 0, 1)) ?></div>
-                  <div class="nama-info">
-                    <strong><?= htmlspecialchars($p['nama']) ?></strong>
-                    <span>@<?= htmlspecialchars($p['username']) ?></span>
+
+      <!-- ── DESKTOP: tabel ── -->
+      <div class="tbl-desktop">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Pelanggan</th>
+                <th>Email</th>
+                <th>Telepon</th>
+                <th>Alamat</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if (empty($list)): ?>
+              <tr>
+                <td colspan="6" class="tbl-empty-lg">
+                  <?= $search ? 'Tidak ada pelanggan yang cocok dengan pencarian.' : 'Belum ada pelanggan yang mendaftar.' ?>
+                </td>
+              </tr>
+              <?php else: foreach ($list as $p): ?>
+              <tr>
+                <td class="col-id">#<?= $p['id'] ?></td>
+                <td>
+                  <div class="pelanggan-nama">
+                    <div class="avatar"><?= mb_strtoupper(mb_substr($p['nama'], 0, 1)) ?></div>
+                    <div class="nama-info">
+                      <strong><?= htmlspecialchars($p['nama']) ?></strong>
+                      <span>@<?= htmlspecialchars($p['username']) ?></span>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td><?= htmlspecialchars($p['email']) ?></td>
-              <td><?= $p['telepon'] ? htmlspecialchars($p['telepon']) : '<span class="col-muted">–</span>' ?></td>
-              <td class="col-alamat">
-                <?php if ($p['alamat']): ?>
-                <span class="col-alamat-inner"><?= htmlspecialchars($p['alamat']) ?></span>
-                <?php else: ?>
-                <span class="col-muted">–</span>
-                <?php endif; ?>
-              </td>
-              <td>
-                <button type="button"
-                        class="btn btn-hapus btn-sm"
-                        data-modal-hapus
-                        data-id="<?= $p['id'] ?>"
-                        data-nama="<?= htmlspecialchars($p['nama'], ENT_QUOTES) ?>">Hapus</button>
-              </td>
-            </tr>
-            <?php endforeach; endif; ?>
-          </tbody>
-        </table>
+                </td>
+                <td><?= htmlspecialchars($p['email']) ?></td>
+                <td><?= $p['telepon'] ? htmlspecialchars($p['telepon']) : '<span class="col-muted">–</span>' ?></td>
+                <td class="col-alamat">
+                  <?php if ($p['alamat']): ?>
+                  <span class="col-alamat-inner"><?= htmlspecialchars($p['alamat']) ?></span>
+                  <?php else: ?>
+                  <span class="col-muted">–</span>
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <button type="button"
+                          class="btn btn-hapus btn-sm"
+                          data-modal-hapus
+                          data-id="<?= $p['id'] ?>"
+                          data-nama="<?= htmlspecialchars($p['nama'], ENT_QUOTES) ?>">Hapus</button>
+                </td>
+              </tr>
+              <?php endforeach; endif; ?>
+            </tbody>
+          </table>
+        </div>
       </div>
+      <!-- /tbl-desktop -->
+
+      <!-- ── MOBILE: kartu pelanggan ── -->
+      <div class="tbl-mobile">
+        <?php if (empty($list)): ?>
+        <p style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;">
+          <?= $search ? 'Tidak ada pelanggan yang cocok dengan pencarian.' : 'Belum ada pelanggan yang mendaftar.' ?>
+        </p>
+        <?php else: ?>
+        <div class="plg-card-list">
+          <?php foreach ($list as $p): ?>
+          <div class="plg-card">
+
+            <!-- Avatar -->
+            <div class="plg-card-avatar"><?= mb_strtoupper(mb_substr($p['nama'], 0, 1)) ?></div>
+
+            <!-- Info -->
+            <div class="plg-card-body">
+              <div class="plg-card-nama"><?= htmlspecialchars($p['nama']) ?></div>
+              <div class="plg-card-username">@<?= htmlspecialchars($p['username']) ?></div>
+              <div class="plg-card-meta">
+                <span class="plg-card-email"><?= htmlspecialchars($p['email']) ?></span>
+                <?php if ($p['telepon']): ?>
+                <span class="plg-card-sep"></span>
+                <span class="plg-card-telp"><?= htmlspecialchars($p['telepon']) ?></span>
+                <?php endif; ?>
+              </div>
+            </div>
+
+            <!-- Tombol hapus -->
+            <div class="plg-card-action">
+              <button type="button"
+                      class="btn btn-hapus btn-sm"
+                      data-modal-hapus
+                      data-id="<?= $p['id'] ?>"
+                      data-nama="<?= htmlspecialchars($p['nama'], ENT_QUOTES) ?>">Hapus</button>
+            </div>
+
+          </div>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+      </div>
+      <!-- /tbl-mobile -->
+
     </div>
 
   </div>
@@ -159,28 +208,5 @@ $total = db()->query('SELECT COUNT(*) FROM pelanggan')->fetchColumn();
 </div>
 
 <script src="<?= base_url('js/admin.js') ?>"></script>
-<script>
-(function () {
-  const modal  = document.getElementById('modal-hapus');
-  const namaEl = document.getElementById('modal-nama');
-  const idEl   = document.getElementById('modal-id');
-
-  document.querySelectorAll('[data-modal-hapus]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      idEl.value         = btn.dataset.id;
-      namaEl.textContent = btn.dataset.nama;
-      modal.hidden       = false;
-    });
-  });
-
-  document.getElementById('modal-batal').addEventListener('click', () => {
-    modal.hidden = true;
-  });
-
-  modal.addEventListener('click', e => {
-    if (e.target === modal) modal.hidden = true;
-  });
-})();
-</script>
 </body>
 </html>

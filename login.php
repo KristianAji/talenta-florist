@@ -14,6 +14,12 @@ if (!empty($_SESSION['pelanggan_id'])) {
 
 $error = ''; $username_val = ''; $ref_val = $_GET['ref'] ?? '';
 
+$flash_success = '';
+if (!empty($_SESSION['flash_success'])) {
+    $flash_success = $_SESSION['flash_success'];
+    unset($_SESSION['flash_success']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password']       ?? '';
@@ -71,6 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <?php if ($error): ?>
       <div class="alert alert-error">⚠ <?= htmlspecialchars($error) ?></div>
+      <?php endif; ?>
+
+      <?php if ($flash_success): ?>
+      <div class="alert alert-success">✓ <?= htmlspecialchars($flash_success) ?></div>
       <?php endif; ?>
 
       <form method="POST">

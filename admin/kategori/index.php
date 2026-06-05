@@ -42,39 +42,80 @@ $list = db()->query("
     <?php endif; ?>
 
     <div class="panel">
-      <div class="tbl-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nama</th>
-              <th>Slug</th>
-              <th>Urutan</th>
-              <th>Jml Produk</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php if (empty($list)): ?>
-            <tr>
-              <td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Belum ada kategori.</td>
-            </tr>
-            <?php else: foreach ($list as $k): ?>
-            <tr>
-              <td><?= $k['id'] ?></td>
-              <td style="font-weight:500;"><?= htmlspecialchars($k['nama']) ?></td>
-              <td><code class="slug-code"><?= htmlspecialchars($k['slug']) ?></code></td>
-              <td><?= $k['urutan'] ?></td>
-              <td><?= $k['jml_produk'] ?></td>
-              <td style="white-space:nowrap;">
-                <a href="<?= base_url('admin/kategori/edit.php?id=' . $k['id']) ?>" class="btn btn-outline btn-sm">Edit</a>
-                <a href="<?= base_url('admin/kategori/hapus.php?id=' . $k['id']) ?>" class="btn btn-hapus btn-sm">Hapus</a>
-              </td>
-            </tr>
-            <?php endforeach; endif; ?>
-          </tbody>
-        </table>
+
+      <!-- ── DESKTOP: tabel ── -->
+      <div class="tbl-desktop">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Slug</th>
+                <th>Urutan</th>
+                <th>Jml Produk</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php if (empty($list)): ?>
+              <tr>
+                <td colspan="6" style="text-align:center;padding:2rem;color:var(--muted);">Belum ada kategori.</td>
+              </tr>
+              <?php else: foreach ($list as $k): ?>
+              <tr>
+                <td><?= $k['id'] ?></td>
+                <td style="font-weight:500;"><?= htmlspecialchars($k['nama']) ?></td>
+                <td><code class="slug-code"><?= htmlspecialchars($k['slug']) ?></code></td>
+                <td><?= $k['urutan'] ?></td>
+                <td><?= $k['jml_produk'] ?></td>
+                <td style="white-space:nowrap;">
+                  <a href="<?= base_url('admin/kategori/edit.php?id=' . $k['id']) ?>" class="btn btn-outline btn-sm">Edit</a>
+                  <a href="<?= base_url('admin/kategori/hapus.php?id=' . $k['id']) ?>" class="btn btn-hapus btn-sm">Hapus</a>
+                </td>
+              </tr>
+              <?php endforeach; endif; ?>
+            </tbody>
+          </table>
+        </div>
       </div>
+      <!-- /tbl-desktop -->
+
+      <!-- ── MOBILE: kartu ── -->
+      <div class="tbl-mobile">
+        <?php if (empty($list)): ?>
+        <p style="text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;">Belum ada kategori.</p>
+        <?php else: ?>
+        <div class="kat-card-list">
+          <?php foreach ($list as $k): ?>
+          <div class="kat-card">
+
+            <!-- Nomor urutan -->
+            <div class="kat-card-num"><?= $k['urutan'] ?></div>
+
+            <!-- Info -->
+            <div class="kat-card-body">
+              <div class="kat-card-nama"><?= htmlspecialchars($k['nama']) ?></div>
+              <div class="kat-card-meta">
+                <span class="kat-card-slug"><?= htmlspecialchars($k['slug']) ?></span>
+                <span class="kat-card-sep"></span>
+                <span class="kat-card-count"><?= $k['jml_produk'] ?> produk</span>
+              </div>
+            </div>
+
+            <!-- Aksi -->
+            <div class="kat-card-actions">
+              <a href="<?= base_url('admin/kategori/edit.php?id=' . $k['id']) ?>" class="btn btn-outline btn-sm">Edit</a>
+              <a href="<?= base_url('admin/kategori/hapus.php?id=' . $k['id']) ?>" class="btn btn-hapus btn-sm">Hapus</a>
+            </div>
+
+          </div>
+          <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+      </div>
+      <!-- /tbl-mobile -->
+
     </div>
 
   </div>

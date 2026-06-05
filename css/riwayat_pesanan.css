@@ -41,6 +41,50 @@
 .empty-icon    { font-size:3.5rem; margin-bottom:1rem; opacity:.5; display:block; }
 .empty-txt     { font-size:.9rem; color:var(--muted); margin-bottom:1.5rem; }
 
+/* ── TOMBOL BERI ULASAN ──────────────────────── */
+.ulasan-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .5rem 1.15rem;
+  border-radius: 2rem;
+  font-size: .82rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid #c06b8a;
+  color: #c06b8a;
+  background: #fff0f5;
+  transition: background .18s, color .18s, transform .15s;
+  cursor: pointer;
+}
+.ulasan-btn:hover {
+  background: #c06b8a;
+  color: #fff;
+  transform: translateY(-1px);
+}
+.ulasan-btn.sudah {
+  border-color: #aaa;
+  color: #888;
+  background: #f5f5f5;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── ORDER FOOT (flex row) ───────────────────── */
+.order-foot {
+  display: flex;
+  gap: .75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ── BODY BASE ───────────────────────────────── */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* ── RESPONSIVE ──────────────────────────────── */
 @media (max-width: 768px) {
   .order-body { flex-wrap:wrap; }

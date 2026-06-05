@@ -107,8 +107,144 @@
   background: rgba(201,122,106,.06);
 }
 
+/* ── TOGGLE TABEL vs KARTU ── */
+.tbl-desktop { display: block; }
+.tbl-mobile  { display: none;  }
+
+/* ── TESTIMONI CARD MOBILE ── */
+.testi-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+.testi-card {
+  background: #fff;
+  border: 1px solid var(--sand);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 1px 8px rgba(61,43,36,.06);
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  border-left: 4px solid var(--blush);
+}
+.testi-card.status-tampil  { border-left-color: var(--green); }
+.testi-card.status-menunggu { border-left-color: #f0ad4e; }
+
+/* Baris atas: avatar + nama + badge status */
+.testi-card-top {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+}
+.testi-card-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--blush);
+  color: var(--deep);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .9rem; font-weight: 600;
+  flex-shrink: 0;
+}
+.testi-card-info { flex: 1; min-width: 0; }
+.testi-card-nama {
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--deep);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.testi-card-meta {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .1rem;
+}
+.testi-card-date {
+  font-size: .62rem;
+  color: var(--muted);
+}
+.testi-card-sep {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--blush);
+  flex-shrink: 0;
+}
+.testi-card-stars {
+  font-size: .75rem;
+  color: #f0ad4e;
+  letter-spacing: 1px;
+}
+
+/* Teks pesan */
+.testi-card-pesan {
+  font-size: .82rem;
+  line-height: 1.6;
+  color: var(--text);
+  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.testi-card-pesan::before { content: '\201C'; }
+.testi-card-pesan::after  { content: '\201D'; }
+
+/* Baris aksi */
+.testi-card-actions {
+  display: flex;
+  gap: .5rem;
+  padding-top: .55rem;
+  border-top: 1px solid var(--sand);
+}
+.testi-card-actions .btn {
+  flex: 1;
+  justify-content: center;
+  padding: .42rem .5rem;
+  font-size: .68rem;
+}
+
 /* ── MOBILE ── */
 @media (max-width: 768px) {
   .testimoni-header { flex-direction: column; align-items: flex-start; }
   .testimoni-footer { flex-direction: column; align-items: flex-start; }
+
+  /* Sembunyikan tabel, tampilkan kartu */
+  .tbl-desktop { display: none  !important; }
+  .tbl-mobile  { display: block !important; }
+
+  /* Topbar: cegah tombol meluber */
+  .admin-topbar {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: .5rem;
+    padding: .75rem 1rem;
+    overflow: hidden;
+  }
+  .admin-topbar .topbar-title {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+  .admin-topbar .btn-primary {
+    font-size: 0;
+    padding: .5rem .65rem;
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .admin-topbar .btn-primary::before {
+    content: '+';
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+
+  .panel { padding: 1rem; }
 }

@@ -1,8 +1,10 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
 require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/config/base_path.php';
+require_once __DIR__ . '/includes/auth_pelanggan.php';
 
-if (empty($_SESSION['pelanggan_id'])) { header('Location: login.php'); exit; }
+if (empty($_SESSION['pelanggan_id'])) { header('Location: ' . base_url('login.php')); exit; }
 
 $list = db()->prepare("
     SELECT ps.*, p.nama AS produk_nama, v.nama AS variasi_nama,
@@ -17,7 +19,6 @@ $list = db()->prepare("
 $list->execute([$_SESSION['pelanggan_id']]);
 $list = $list->fetchAll();
 
-// Ambil semua pesanan_id yang sudah diulas oleh pelanggan ini
 $sudah_diulas = [];
 $ulasan_query = db()->prepare("
     SELECT pesanan_id FROM testimoni
@@ -42,59 +43,32 @@ $status_label = [
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Riwayat Pesanan – Talenta Florist</title>
-  <link rel="stylesheet" href="css/riwayat_pesanan.css" />
-  <style>
-    /* Tombol Beri Ulasan */
-    .ulasan-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .45rem;
-      padding: .5rem 1.15rem;
-      border-radius: 2rem;
-      font-size: .82rem;
-      font-weight: 600;
-      text-decoration: none;
-      border: 1.5px solid #c06b8a;
-      color: #c06b8a;
-      background: #fff0f5;
-      transition: background .18s, color .18s, transform .15s;
-      cursor: pointer;
-    }
-    .ulasan-btn:hover {
-      background: #c06b8a;
-      color: #fff;
-      transform: translateY(-1px);
-    }
-    .ulasan-btn.sudah {
-      border-color: #aaa;
-      color: #888;
-      background: #f5f5f5;
-      cursor: default;
-      pointer-events: none;
-    }
-    .order-foot {
-      display: flex;
-      gap: .75rem;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="<?= base_url('css/riwayat_pesanan.css') ?>" />
+  <script>window.BASE_URL = '<?= base_url('') ?>';</script>
 </head>
-<body style="display:flex;flex-direction:column;min-height:100vh;">
+<body>
 
   <nav>
-    <a class="logo" href="index.php">Talenta <span>Florist</span></a>
+    <a class="logo" href="<?= base_url('index.php') ?>">Talenta <span>Florist</span></a>
     <ul class="nav-links">
-      <li><a href="tentang.php">Tentang</a></li>
-      <li><a href="katalog.php">Katalog</a></li>
-      <li><a href="pesan.php">Cara Pesan</a></li>
-      <li><a href="kontak.php">Kontak</a></li>
-      <li><a href="testimoni.php">Ulasan</a></li>
+      <li><a href="<?= base_url('tentang.php') ?>">Tentang</a></li>
+      <li><a href="<?= base_url('katalog.php') ?>">Katalog</a></li>
+      <li><a href="<?= base_url('pesan.php') ?>">Cara Pesan</a></li>
+      <li><a href="<?= base_url('kontak.php') ?>">Kontak</a></li>
+      <li><a href="<?= base_url('testimoni.php') ?>">Ulasan</a></li>
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
-      <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-      <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
-      <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
+      <?php if (is_admin_browsing()): ?>
+        <span class="nav-user">Admin: <strong><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></strong></span>
+      <?php else: ?>
+        <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('riwayat_pesanan.php') ?>">📋 Riwayat Pesanan</a>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('notifikasi.php') ?>" style="position:relative;">
+          🔔
+          <span id="notif-badge" class="notif-badge-nav" style="display:none;">0</span>
+        </a>
+        <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
+      <?php endif; ?>
     </div>
   </nav>
 
@@ -106,7 +80,7 @@ $status_label = [
     <div class="empty-state">
       <span class="empty-icon">🌸</span>
       <p class="empty-txt">Kamu belum memiliki pesanan.<br>Yuk mulai belanja bunga favoritmu!</p>
-      <a class="btn btn-outline" href="katalog.php">Lihat Katalog</a>
+      <a class="btn btn-outline" href="<?= base_url('katalog.php') ?>">Lihat Katalog</a>
     </div>
 
     <?php else: ?>
@@ -156,7 +130,7 @@ $status_label = [
           <?php if ($sudah_review): ?>
           <span class="ulasan-btn sudah">✅ Sudah Diulas</span>
           <?php else: ?>
-          <a href="testimoni.php?pesanan_id=<?= $ps['id'] ?>&produk=<?= urlencode($ps['produk_nama']) ?>"
+          <a href="<?= base_url('testimoni.php') ?>?pesanan_id=<?= $ps['id'] ?>&produk=<?= urlencode($ps['produk_nama']) ?>"
              class="ulasan-btn">
             ⭐ Beri Ulasan
           </a>
@@ -172,5 +146,8 @@ $status_label = [
   <footer>
     <p>&copy; <?= date('Y') ?> <strong>Talenta Florist</strong> &middot; Kota Tomohon, Sulawesi Utara</p>
   </footer>
+
+  <script src="<?= base_url('js/main.js') ?>"></script>
+  <script src="<?= base_url('js/notif-pelanggan.js') ?>"></script>
 </body>
 </html>

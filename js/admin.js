@@ -97,3 +97,39 @@ if (flash) setTimeout(() => {
     flash.style.opacity = '0';
     setTimeout(() => flash.remove(), 400);
 }, 3500);
+
+// ── SYNC BADGE NOTIF KE BOTTOM NAV DOT (dashboard.php) ──
+document.addEventListener('DOMContentLoaded', () => {
+  const badge = document.getElementById('notif-badge');
+  const dot   = document.getElementById('bnav-notif-dot');
+  if (!badge || !dot) return;
+  const observer = new MutationObserver(() => {
+    dot.style.display = badge.style.display === 'none' ? 'none' : 'inline-block';
+  });
+  observer.observe(badge, { attributes: true, attributeFilter: ['style'] });
+});
+
+// ── MODAL KONFIRMASI HAPUS PELANGGAN ──
+(function () {
+  const modal  = document.getElementById('modal-hapus');
+  const namaEl = document.getElementById('modal-nama');
+  const idEl   = document.getElementById('modal-id');
+
+  if (!modal) return;
+
+  document.querySelectorAll('[data-modal-hapus]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      idEl.value         = btn.dataset.id;
+      namaEl.textContent = btn.dataset.nama;
+      modal.hidden       = false;
+    });
+  });
+
+  document.getElementById('modal-batal').addEventListener('click', () => {
+    modal.hidden = true;
+  });
+
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.hidden = true;
+  });
+})();

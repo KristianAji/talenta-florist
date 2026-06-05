@@ -41,6 +41,7 @@ $produk_list = array_values($produk_map);
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Katalog Bunga – Talenta Florist</title>
   <link rel="stylesheet" href="css/katalog.css" />
+  <script>window.BASE_URL = '<?= base_url('') ?>';</script>
 </head>
 <body>
   <div class="petal"></div><div class="petal"></div><div class="petal"></div>
@@ -56,9 +57,13 @@ $produk_list = array_values($produk_map);
     </ul>
     <div style="display:flex;gap:.75rem;align-items:center;">
       <?php if (!empty($_SESSION['pelanggan_id'])): ?>
-        <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
-        <a class="btn btn-outline btn-sm" href="logout.php">Keluar</a>
+          <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
+          <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
+          <a class="btn btn-outline btn-sm" href="<?= base_url('notifikasi.php') ?>" style="position:relative">
+          🔔
+          <span id="notif-badge" class="notif-badge-nav" style="display:none">0</span>
+          </a>
+          <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
       <?php else: ?>
         <a class="btn btn-outline btn-sm" href="login.php">Masuk</a>
         <a class="btn btn-primary btn-sm" href="daftar.php">Daftar</a>
@@ -140,5 +145,6 @@ $produk_list = array_values($produk_map);
 
   <script src="js/main.js"></script>
   <script src="js/katalog.js"></script>
+  <script src="<?= base_url('js/notif-pelanggan.js') ?>"></script>
 </body>
 </html>

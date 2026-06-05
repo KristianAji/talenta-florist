@@ -50,7 +50,8 @@ $rekomendasi = $rek->fetchAll();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><?= htmlspecialchars($produk['nama']) ?> – Talenta Florist</title>
-  <link rel="stylesheet" href="<?= base_url('css/style.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('css/detail.css') ?>" />
+  <script>window.BASE_URL = '<?= base_url('') ?>';</script>
 </head>
 <body>
   <div class="petal"></div><div class="petal"></div>
@@ -76,9 +77,13 @@ $rekomendasi = $rek->fetchAll();
       <?php if (is_admin_browsing()): ?>
         <span class="nav-user">Admin: <strong><?= htmlspecialchars($_SESSION['admin_nama'] ?? 'Admin') ?></strong></span>
       <?php elseif (is_pelanggan()): ?>
-        <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
-        <a class="btn btn-outline" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
-        <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
+          <span class="nav-user">Halo, <strong><?= htmlspecialchars($_SESSION['pelanggan_nama']) ?></strong></span>
+          <a class="btn btn-outline btn-sm" href="riwayat_pesanan.php">📋 Riwayat Pesanan</a>
+          <a class="btn btn-outline btn-sm" href="<?= base_url('notifikasi.php') ?>" style="position:relative">
+          🔔
+          <span id="notif-badge" class="notif-badge-nav" style="display:none">0</span>
+          </a>
+          <a class="btn btn-outline btn-sm" href="<?= base_url('logout.php') ?>">Keluar</a>
       <?php else: ?>
         <a class="btn btn-outline btn-sm" href="<?= base_url('login.php') ?>">Masuk</a>
         <a class="btn btn-primary btn-sm" href="<?= base_url('daftar.php') ?>">Daftar</a>
@@ -200,5 +205,6 @@ $rekomendasi = $rek->fetchAll();
 
   <script src="<?= base_url('js/main.js') ?>"></script>
   <script src="<?= base_url('js/detail.js') ?>"></script>
+  <script src="<?= base_url('js/notif-pelanggan.js') ?>"></script>
 </body>
 </html>
